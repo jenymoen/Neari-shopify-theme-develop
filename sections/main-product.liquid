@@ -71,7 +71,7 @@
             </div>
 
           {%- when 'description' -%}
-            {%- if product.description != blank -%}
+            {%- if product.description != blank and block.settings.full_width == false -%}
               <div class="rte text-muted" {{ block.shopify_attributes }}>{{ product.description }}</div>
             {%- endif -%}
 
@@ -194,6 +194,12 @@
       {%- endfor -%}
     </div>
   </div>
+
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'description' and block.settings.full_width and product.description != blank -%}
+      <div class="product__description rte text-muted{% if block.settings.columns %} product__description--columns{% endif %}" {{ block.shopify_attributes }}>{{ product.description }}</div>
+    {%- endif -%}
+  {%- endfor -%}
 </div>
 
 <script type="application/ld+json">
@@ -286,6 +292,37 @@
 
   .product__thumb[aria-current='true'] {
     border-color: var(--color-ink);
+  }
+
+  .product__description {
+    margin-top: var(--space-8);
+  }
+
+  @media (min-width: 990px) {
+    .product__description {
+      margin-top: 64px;
+    }
+  }
+
+  @media (min-width: 750px) {
+    .product__description--columns {
+      column-count: 2;
+      column-gap: 56px;
+    }
+
+    .product__description--columns :is(h1, h2, h3, h4) {
+      break-after: avoid;
+    }
+
+    .product__description--columns > :first-child {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .product__description--columns {
+      column-count: 3;
+    }
   }
 
   .product__info {
@@ -597,7 +634,23 @@
     {
       "type": "description",
       "name": "Produktbeskrivelse",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "full_width",
+          "label": "Full bredde under bilde og info",
+          "info": "Viser beskrivelsen over hele seksjonens bredde under galleriet, i stedet for i høyrekolonnen.",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "columns",
+          "label": "Del beskrivelsen i kolonner",
+          "info": "Gjelder kun når full bredde er på. 2 kolonner på nettbrett, 3 på store skjermer. Mobil vises i én kolonne.",
+          "default": false
+        }
+      ]
     },
     {
       "type": "fine_print",
