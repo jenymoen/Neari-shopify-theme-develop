@@ -147,7 +147,30 @@ class ProductGallery extends HTMLElement {
     this.addEventListener('click', (event) => {
       const thumb = event.target.closest('[data-media-target]');
       if (thumb) this.select(thumb.dataset.mediaTarget);
+      if (event.target.closest('[data-carousel-prev]')) this.scrollTrack(-1);
+      if (event.target.closest('[data-carousel-next]')) this.scrollTrack(1);
     });
+
+    this.track = this.querySelector('[data-carousel-track]');
+    if (this.track) {
+      this.track.addEventListener('scroll', () => this.updateButtons(), { passive: true });
+      window.addEventListener('resize', () => this.updateButtons());
+      this.updateButtons();
+    }
+  }
+
+  scrollTrack(direction) {
+    if (!this.track) return;
+    this.track.scrollBy({ left: direction * this.track.clientWidth * 0.8 });
+  }
+
+  updateButtons() {
+    const prev = this.querySelector('[data-carousel-prev]');
+    const next = this.querySelector('[data-carousel-next]');
+    if (!this.track || !prev || !next) return;
+    const max = this.track.scrollWidth - this.track.clientWidth - 1;
+    prev.disabled = this.track.scrollLeft <= 0;
+    next.disabled = this.track.scrollLeft >= max;
   }
 
   select(mediaId) {
@@ -158,7 +181,15 @@ class ProductGallery extends HTMLElement {
       slide.hidden = slide.dataset.mediaId !== String(mediaId);
     });
     this.querySelectorAll('[data-media-target]').forEach((thumb) => {
-      thumb.setAttribute('aria-current', String(thumb.dataset.mediaTarget === String(mediaId)));
+      const active = thumb.dataset.mediaTarget === String(mediaId);
+      thumb.setAttribute('aria-current', String(active));
+      if (active && this.track) {
+        const item = thumb.parentElement;
+        const left = item.offsetLeft - this.track.offsetLeft;
+        if (left < this.track.scrollLeft || left + item.offsetWidth > this.track.scrollLeft + this.track.clientWidth) {
+          this.track.scrollTo({ left: left - 4 });
+        }
+      }
     });
   }
 }

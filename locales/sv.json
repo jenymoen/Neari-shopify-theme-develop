@@ -58,7 +58,9 @@
       "increase_quantity": "Fler",
       "decrease_quantity": "Färre",
       "show_image": "Visa bild {{ index }}",
-      "placeholder_title": "Produktnamn"
+      "placeholder_title": "Produktnamn",
+      "previous_images": "Föregående bilder",
+      "next_images": "Nästa bilder"
     }
   },
   "cart": {

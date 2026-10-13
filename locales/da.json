@@ -58,7 +58,9 @@
       "increase_quantity": "Flere",
       "decrease_quantity": "Færre",
       "show_image": "Vis billede {{ index }}",
-      "placeholder_title": "Produktnavn"
+      "placeholder_title": "Produktnavn",
+      "previous_images": "Forrige billeder",
+      "next_images": "Næste billeder"
     }
   },
   "cart": {

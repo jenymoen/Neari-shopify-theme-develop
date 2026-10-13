@@ -2,6 +2,9 @@
   assign current_variant = product.selected_or_first_available_variant
   assign featured_media_id = current_variant.featured_media.id | default: product.featured_media.id
   assign form_id = 'ProductForm-' | append: section.id
+  assign gallery_width = section.settings.gallery_width
+  assign info_width = 100 | minus: gallery_width
+  assign aspect = section.settings.image_ratio | replace: ':', ' / '
 -%}
 <div class="product page-width" data-product-section data-section-id="{{ section.id }}">
   <nav class="product__breadcrumbs body-s text-muted" aria-label="{{ 'general.breadcrumbs' | t }}">
@@ -14,7 +17,7 @@
     <span aria-current="page">{{ product.title | escape }}</span>
   </nav>
 
-  <div class="product__layout">
+  <div class="product__layout" style="--gallery-fr: {{ gallery_width }}fr; --info-fr: {{ info_width }}fr; --gallery-aspect: {{ aspect }};">
     <product-gallery class="product__gallery">
       <div class="product__main-media">
         {%- for media in product.media -%}
@@ -28,7 +31,9 @@
         {%- endfor -%}
       </div>
       {%- if product.media.size > 1 -%}
-        <ul class="product__thumbs" role="list">
+        <div class="product__carousel">
+          <button type="button" class="icon-button product__carousel-button" data-carousel-prev aria-label="{{ 'products.product.previous_images' | t }}">{% render 'icon', name: 'chevron-left' %}</button>
+          <ul class="product__thumbs" role="list" data-carousel-track>
           {%- for media in product.media -%}
             <li>
               <button type="button" class="product__thumb media" data-media-target="{{ media.id }}" aria-current="{% if media.id == featured_media_id %}true{% else %}false{% endif %}" aria-label="{{ 'products.product.show_image' | t: index: forloop.index }}">
@@ -36,7 +41,9 @@
               </button>
             </li>
           {%- endfor -%}
-        </ul>
+          </ul>
+          <button type="button" class="icon-button product__carousel-button" data-carousel-next aria-label="{{ 'products.product.next_images' | t }}">{% render 'icon', name: 'chevron-right' %}</button>
+        </div>
       {%- endif -%}
     </product-gallery>
 
@@ -207,13 +214,14 @@
 
   .product__layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-8);
     align-items: start;
   }
 
   @media (min-width: 990px) {
     .product__layout {
+      grid-template-columns: minmax(0, var(--gallery-fr)) minmax(0, var(--info-fr));
       gap: 56px;
     }
   }
@@ -226,18 +234,44 @@
   }
 
   .product__main-media .product__slide {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: var(--gallery-aspect, 1 / 1);
     border-radius: var(--radius-l);
     background: var(--color-sky);
   }
 
+  .product__carousel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .product__carousel-button[disabled] {
+    opacity: 0.3;
+    cursor: default;
+  }
+
   .product__thumbs {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex: 1;
     gap: var(--space-3);
+    min-width: 0;
     margin: 0;
-    padding: 0;
+    padding: 4px;
     list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  .product__thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product__thumbs li {
+    flex: none;
+    width: 88px;
+    scroll-snap-align: start;
   }
 
   .product__thumb {
@@ -476,6 +510,31 @@
   "name": "Produkt",
   "tag": "section",
   "class": "section-main-product",
+  "settings": [
+    {
+      "type": "range",
+      "id": "gallery_width",
+      "label": "Bredde på stort produktbilde",
+      "info": "Andel av bredden på desktop. Resten går til produktinfo.",
+      "min": 35,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Format på stort produktbilde",
+      "options": [
+        { "value": "1:1", "label": "Kvadrat (1:1)" },
+        { "value": "4:5", "label": "Stående (4:5)" },
+        { "value": "3:4", "label": "Stående (3:4)" },
+        { "value": "4:3", "label": "Liggende (4:3)" }
+      ],
+      "default": "1:1"
+    }
+  ],
   "blocks": [
     {
       "type": "tabs",
