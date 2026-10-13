@@ -1,0 +1,188 @@
+{
+  "general": {
+    "home": "Forside",
+    "breadcrumbs": "Sti",
+    "close": "Luk",
+    "placeholder_image": "Pladsholderbillede",
+    "meta": {
+      "tagged": "Mærket {{ tags }}",
+      "page": "Side {{ page }}"
+    },
+    "accessibility": {
+      "skip_to_content": "Gå til indhold"
+    },
+    "header": {
+      "menu": "Menu",
+      "main_navigation": "Hovednavigation",
+      "search": "Søg",
+      "account": "Konto",
+      "cart": "Indkøbskurv"
+    },
+    "search": {
+      "placeholder": "Søg i butikken",
+      "submit": "Søg"
+    },
+    "pagination": {
+      "label": "Sidenummerering",
+      "previous": "Forrige side",
+      "next": "Næste side",
+      "page": "Gå til side {{ number }}"
+    },
+    "404": {
+      "title": "Siden blev ikke fundet",
+      "text": "Siden, du leder efter, findes ikke længere, eller adressen er stavet forkert.",
+      "button": "Tilbage til forsiden"
+    }
+  },
+  "products": {
+    "badges": {
+      "ice_junior": "0 kr/md. med Ice Junior",
+      "care": "Nem for bedsteforældre",
+      "own_sim": "Ingen Neari-afgift",
+      "specs": "4G · GPS · SOS"
+    },
+    "fine_print": {
+      "ice_junior": "Ice Junior leveres af Ice. Gælder børn under 13 år, kun i Norge og i Ices net. Tjek dækning på ice.no.",
+      "own_sim": "Virker med almindeligt nano-SIM fra alle operatører. Ingen Neari-afgift."
+    },
+    "product": {
+      "add_to_cart": "Læg i kurven",
+      "sold_out": "Udsolgt",
+      "unavailable": "Ikke tilgængelig",
+      "price": "Pris",
+      "sale_price": "Tilbudspris",
+      "regular_price": "Normalpris",
+      "from_price": "Fra {{ price }}",
+      "taxes_included": "Inkl. moms.",
+      "quantity": "Antal",
+      "increase_quantity": "Flere",
+      "decrease_quantity": "Færre",
+      "show_image": "Vis billede {{ index }}",
+      "placeholder_title": "Produktnavn"
+    }
+  },
+  "cart": {
+    "title": "Indkøbskurv",
+    "empty": "Din indkøbskurv er tom.",
+    "continue_shopping": "Se urene",
+    "total": "I alt",
+    "checkout": "Gå til kassen",
+    "update": "Opdater kurven",
+    "note": "Note til ordren",
+    "remove": "Fjern {{ product }}",
+    "remove_short": "Fjern",
+    "increase": "Flere {{ product }}",
+    "decrease": "Færre {{ product }}",
+    "quantity_for": "Antal for {{ product }}",
+    "taxes_included": "Inkl. moms.",
+    "shipping_at_checkout": "Fragt beregnes i kassen.",
+    "updated": "Indkøbskurven er opdateret.",
+    "error": "Noget gik galt. Prøv igen."
+  },
+  "collection": {
+    "sort_by": "Sortér efter",
+    "apply": "Anvend",
+    "empty": "Ingen produkter fundet.",
+    "list_title": "Kollektioner"
+  },
+  "blog": {
+    "empty": "Ingen indlæg endnu.",
+    "back": "Tilbage til bloggen"
+  },
+  "search": {
+    "title": "Søg",
+    "results_count": {
+      "one": "{{ count }} resultat for “{{ terms }}”",
+      "other": "{{ count }} resultater for “{{ terms }}”"
+    },
+    "no_results": "Ingen resultater. Prøv et andet søgeord."
+  },
+  "footer": {
+    "social": "Følg os",
+    "country": "Land/område",
+    "language": "Sprog",
+    "update": "Opdater",
+    "newsletter": {
+      "email_label": "E-mail",
+      "placeholder": "Din e-mail",
+      "submit": "Tilmeld mig",
+      "success": "Tak! Du er tilmeldt."
+    }
+  },
+  "password": {
+    "title": "Butikken åbner snart",
+    "label": "Adgangskode",
+    "submit": "Åbn",
+    "wrong": "Forkert adgangskode."
+  },
+  "customer": {
+    "fields": {
+      "email": "E-mail",
+      "password": "Adgangskode",
+      "password_confirmation": "Bekræft adgangskode",
+      "first_name": "Fornavn",
+      "last_name": "Efternavn"
+    },
+    "login": {
+      "title": "Log ind",
+      "submit": "Log ind",
+      "forgot": "Glemt adgangskode?",
+      "create_account": "Opret konto"
+    },
+    "recover": {
+      "title": "Nulstil adgangskode",
+      "submit": "Send link",
+      "success": "Vi har sendt dig en e-mail med et link til at nulstille adgangskoden."
+    },
+    "register": {
+      "title": "Opret konto",
+      "submit": "Opret konto",
+      "have_account": "Har du allerede en konto? Log ind"
+    },
+    "reset": {
+      "title": "Ny adgangskode",
+      "submit": "Gem adgangskode"
+    },
+    "activate": {
+      "title": "Aktivér konto",
+      "submit": "Aktivér konto",
+      "decline": "Afvis invitation"
+    },
+    "account": {
+      "title": "Min konto",
+      "logout": "Log ud",
+      "orders": "Ordrer",
+      "details": "Kontooplysninger",
+      "addresses": "Se adresser"
+    },
+    "orders": {
+      "order": "Ordre",
+      "order_title": "Ordre {{ name }}",
+      "date": "Dato",
+      "payment_status": "Betaling",
+      "fulfillment_status": "Levering",
+      "total": "I alt",
+      "none": "Du har ingen ordrer endnu.",
+      "back": "Tilbage til kontoen",
+      "product": "Produkt",
+      "quantity": "Antal",
+      "subtotal": "Subtotal",
+      "track": "Følg forsendelse",
+      "shipping_address": "Leveringsadresse",
+      "billing_address": "Faktureringsadresse"
+    },
+    "addresses": {
+      "title": "Adresser",
+      "add": "Tilføj adresse",
+      "edit": "Rediger",
+      "delete": "Slet",
+      "save": "Gem adresse",
+      "default": "Standard",
+      "none": "Du har ingen gemte adresser.",
+      "address1": "Adresse",
+      "zip": "Postnummer",
+      "city": "By",
+      "country": "Land"
+    }
+  }
+}

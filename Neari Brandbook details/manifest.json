@@ -1,0 +1,89 @@
+{
+  "manifestVersion": 3,
+  "name": "Neari",
+  "namespace": "Neari",
+  "files": [
+    "assets/Logo/README.md",
+    "components/Badge/README.md",
+    "components/Button/README.md",
+    "components/Logo/README.md",
+    "tokens.css"
+  ],
+  "libraries": [],
+  "components": [
+    {
+      "name": "Badge",
+      "group": "Content",
+      "summary": "Lite pillemerke for korte fakta på produktkort og i annonser."
+    },
+    {
+      "name": "Button",
+      "group": "Actions",
+      "summary": "Pilleformet knapp i Figtree 600 – én primær handling per visning."
+    },
+    {
+      "name": "Logo",
+      "group": "Brand",
+      "summary": "Neari-logoen: ordmerket «neari» i Bricolage Grotesque Bold, konturert til former, med pingen – en coral prikk og to buer som sprer seg ut."
+    }
+  ],
+  "assetGroups": [
+    {
+      "name": "Logo",
+      "tile": "l",
+      "order": [
+        "neari-logo.svg",
+        "neari-logo-negativ.svg",
+        "neari-ping.svg",
+        "neari-appikon.svg"
+      ],
+      "files": [
+        {
+          "path": "assets/Logo/neari-logo.svg",
+          "id": "fa33cca8fb78208c28fdd92898c8067b"
+        },
+        {
+          "path": "assets/Logo/neari-logo-negativ.svg",
+          "id": "3559ef007a8c60a5540a875eefc79f46"
+        },
+        {
+          "path": "assets/Logo/neari-ping.svg",
+          "id": "bcb94dcf72ded9115db2d8bd6699e3ce"
+        },
+        {
+          "path": "assets/Logo/neari-appikon.svg",
+          "id": "b880608588d0b18780e8d14ecf1b6c6a"
+        }
+      ]
+    }
+  ],
+  "storage": {
+    "files": {
+      "assets/Logo/neari-appikon.svg": {
+        "store": "blob",
+        "id": "b880608588d0b18780e8d14ecf1b6c6a",
+        "bytes": 621,
+        "type": "image/svg+xml"
+      },
+      "assets/Logo/neari-logo-negativ.svg": {
+        "store": "blob",
+        "id": "3559ef007a8c60a5540a875eefc79f46",
+        "bytes": 3631,
+        "type": "image/svg+xml"
+      },
+      "assets/Logo/neari-logo.svg": {
+        "store": "blob",
+        "id": "fa33cca8fb78208c28fdd92898c8067b",
+        "bytes": 3631,
+        "type": "image/svg+xml"
+      },
+      "assets/Logo/neari-ping.svg": {
+        "store": "blob",
+        "id": "bcb94dcf72ded9115db2d8bd6699e3ce",
+        "bytes": 498,
+        "type": "image/svg+xml"
+      }
+    },
+    "blobBytesUsed": 8381
+  }
+}

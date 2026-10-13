@@ -1,0 +1,108 @@
+<section class="segment-cards page-width">
+  {%- for block in section.blocks -%}
+    <div class="segment-card segment-card--{{ block.settings.color }}" {{ block.shopify_attributes }}>
+      {%- if block.settings.label != blank -%}
+        <span class="label label--caps">{{ block.settings.label | escape }}</span>
+      {%- endif -%}
+      <h2 class="segment-card__heading">{{ block.settings.heading | escape }}</h2>
+      {%- if block.settings.button_label != blank -%}
+        <a href="{{ block.settings.button_link | default: routes.all_products_collection_url }}" class="button {% if block.settings.button_style == 'filled' %}button--dark{% else %}button--secondary{% endif %}">{{ block.settings.button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</section>
+
+{% stylesheet %}
+  .segment-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: var(--space-6);
+    padding-block: var(--section-gap);
+  }
+
+  .segment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    min-height: 380px;
+    padding: var(--space-8);
+    border-radius: var(--radius-l);
+    color: var(--color-fjord);
+  }
+
+  .segment-card--coral {
+    background: var(--color-coral);
+  }
+
+  .segment-card--sage {
+    background: var(--color-sage);
+  }
+
+  .segment-card--sky {
+    background: var(--color-sky);
+  }
+
+  .segment-card__heading {
+    flex: 1;
+    font: 700 clamp(32px, 4vw, 48px) / 1.05 var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 750px) {
+    .segment-card {
+      padding: 40px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Segmentkort",
+  "blocks": [
+    {
+      "type": "segment",
+      "name": "Segment",
+      "settings": [
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Farge",
+          "info": "Coral leder i barnekommunikasjon, sage i eldre-kommunikasjon. Teksten er alltid fjord.",
+          "options": [
+            { "value": "coral", "label": "Coral" },
+            { "value": "sage", "label": "Sage" },
+            { "value": "sky", "label": "Sky" }
+          ],
+          "default": "coral"
+        },
+        { "type": "text", "id": "label", "label": "Etikett", "default": "For barn 5–12 år" },
+        { "type": "text", "id": "heading", "label": "Overskrift", "default": "Vit at hun kom fram." },
+        { "type": "text", "id": "button_label", "label": "Knapptekst", "default": "Se Neari Go" },
+        { "type": "url", "id": "button_link", "label": "Knappelenke" },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Knappestil",
+          "options": [
+            { "value": "filled", "label": "Fylt (fjord)" },
+            { "value": "outline", "label": "Omriss" }
+          ],
+          "default": "filled"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Segmentkort",
+      "blocks": [
+        { "type": "segment", "settings": { "color": "coral", "label": "For barn 5–12 år", "heading": "Vit at hun kom fram.", "button_label": "Se Neari Go", "button_style": "filled" } },
+        { "type": "segment", "settings": { "color": "sage", "label": "For foreldre som bor alene", "heading": "Mamma kan ringe, men slipper å bruke smarttelefon.", "button_label": "Se Neari Care", "button_style": "outline" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

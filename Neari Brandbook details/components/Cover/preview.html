@@ -1,0 +1,29 @@
+<!-- @dsCard height=300 -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;600&display=swap">
+<style>
+body{margin:0;width:960px;height:300px;position:relative;background:var(--sand,#F7F2EA);overflow:hidden}
+svg{position:absolute;left:0;top:0}
+.fjord{fill:var(--fjord,#14323A)} .coral{fill:var(--coral,#E8714F)} .sage{fill:var(--sage,#A9C8B8)} .sky{fill:var(--sky,#CFE3EA)}
+.arc{fill:none;stroke:var(--coral,#E8714F);stroke-width:8}
+.arc2{fill:none;stroke:var(--sand,#F7F2EA);stroke-width:8}
+.t{position:absolute;left:48px;bottom:44px;max-width:440px}
+.n{font:700 120px/.92 "Bricolage Grotesque",system-ui,sans-serif;color:var(--ink,#14323A);letter-spacing:-.03em;margin:0}
+.g{font:400 14px/20px "Figtree",system-ui,sans-serif;color:var(--ink-muted,#4E6266);margin:16px 0 0}
+</style></head><body>
+<!--
+blocks: fjord 272×300 slab (bleeds top+bottom), coral 160×160 disc (radius-pill), sage 208×120 (radius-l), sky 120×120 (radius-m)
+arrangement: one tall fjord slab with satellites, right of x=480, slab bleeding off the right edge
+pattern: literal motif (the ping: closeness spreading outward) → three concentric quarter-arcs from the coral disc, stroke space-2
+steps/radii: gaps space-6 (24) and space-8 (32); radii radius-m, radius-l, radius-pill
+-->
+<svg width="960" height="300" viewBox="0 0 960 300" aria-hidden="true">
+<rect class="sky" x="504" y="32" width="120" height="120" rx="16"/>
+<rect class="sage" x="504" y="176" width="208" height="124" rx="28"/>
+<rect class="fjord" x="688" y="0" width="272" height="300"/>
+<circle class="coral" cx="736" cy="96" r="80" />
+<path class="arc2" d="M736 200 A104 104 0 0 0 840 96"/>
+<path class="arc" d="M736 232 A136 136 0 0 0 872 96" style="stroke:var(--coral,#E8714F)"/>
+<path class="arc2" d="M736 264 A168 168 0 0 0 904 96"/>
+</svg>
+<div class="t"><p class="n">Neari</p><p class="g">Always near. GPS-smartklokker som holder familien tett.</p></div>
+</body></html>

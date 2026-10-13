@@ -1,0 +1,27 @@
+<section class="apps page-width">
+  {%- for block in section.blocks -%}
+    {% render block %}
+  {%- endfor -%}
+</section>
+
+{% stylesheet %}
+  .apps {
+    padding-bottom: var(--section-gap);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Apper",
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Apper"
+    }
+  ]
+}
+{% endschema %}

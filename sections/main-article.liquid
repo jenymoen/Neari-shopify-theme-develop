@@ -1,0 +1,60 @@
+<article class="article page-width">
+  <header class="article__header">
+    <span class="body-s text-muted">
+      {{ article.published_at | time_tag: format: 'date' }}
+      {%- if section.settings.show_author and article.author != blank %} &middot; {{ article.author | escape }}{% endif -%}
+    </span>
+    <h1 class="display-l">{{ article.title | escape }}</h1>
+  </header>
+
+  {%- if article.image != blank -%}
+    <div class="article__image media">
+      {% render 'image', image: article.image, sizes: '(min-width: 990px) 840px, 100vw', priority: true %}
+    </div>
+  {%- endif -%}
+
+  <div class="rte article__content">{{ article.content }}</div>
+
+  <a class="article__back" href="{{ blog.url }}">&larr; {{ 'blog.back' | t }}</a>
+</article>
+
+{% stylesheet %}
+  .article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: 840px;
+    margin-inline: auto;
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .article__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .article__image {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-l);
+    background: var(--color-sky);
+  }
+
+  .article__back {
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Artikkel",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Vis forfatter",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

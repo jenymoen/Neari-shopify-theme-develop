@@ -1,0 +1,48 @@
+<section class="auth page-width">
+  <div id="LoginForm" class="auth__panel">
+    <h1 class="display-l">{{ 'customer.login.title' | t }}</h1>
+
+    {%- form 'customer_login', novalidate: 'novalidate', class: 'auth__form' -%}
+      {%- if form.errors -%}
+        <div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="field">
+        <label class="field__label" for="CustomerEmail">{{ 'customer.fields.email' | t }}</label>
+        <input id="CustomerEmail" class="input" type="email" name="customer[email]" value="{{ form.email | escape }}" autocomplete="email" required>
+      </div>
+      {%- if form.password_needed -%}
+        <div class="field">
+          <label class="field__label" for="CustomerPassword">{{ 'customer.fields.password' | t }}</label>
+          <input id="CustomerPassword" class="input" type="password" name="customer[password]" autocomplete="current-password" required>
+        </div>
+        <a href="#RecoverForm" data-recover-link>{{ 'customer.login.forgot' | t }}</a>
+      {%- endif -%}
+      <button type="submit" class="button button--primary">{{ 'customer.login.submit' | t }}</button>
+      <a href="{{ routes.account_register_url }}">{{ 'customer.login.create_account' | t }}</a>
+    {%- endform -%}
+  </div>
+
+  <div id="RecoverForm" class="auth__panel">
+    <h2 class="display-l">{{ 'customer.recover.title' | t }}</h2>
+    {%- form 'recover_customer_password', class: 'auth__form' -%}
+      {%- if form.posted_successfully? -%}
+        <div class="form-message" role="status">{{ 'customer.recover.success' | t }}</div>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="field">
+        <label class="field__label" for="RecoverEmail">{{ 'customer.fields.email' | t }}</label>
+        <input id="RecoverEmail" class="input" type="email" name="email" autocomplete="email" required>
+      </div>
+      <button type="submit" class="button button--secondary">{{ 'customer.recover.submit' | t }}</button>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Innlogging",
+  "settings": []
+}
+{% endschema %}

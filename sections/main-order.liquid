@@ -1,0 +1,61 @@
+<section class="auth auth--wide page-width">
+  <header class="account__header">
+    <div>
+      <h1 class="display-l">{{ 'customer.orders.order_title' | t: name: order.name }}</h1>
+      <p class="text-muted">{{ order.created_at | time_tag: format: 'date' }}</p>
+    </div>
+    <a href="{{ routes.account_url }}" class="button button--secondary">{{ 'customer.orders.back' | t }}</a>
+  </header>
+
+  <table class="account__table">
+    <thead>
+      <tr>
+        <th scope="col">{{ 'customer.orders.product' | t }}</th>
+        <th scope="col">{{ 'customer.orders.quantity' | t }}</th>
+        <th scope="col">{{ 'customer.orders.total' | t }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for line_item in order.line_items -%}
+        <tr>
+          <th scope="row">
+            {{ line_item.title | escape }}
+            {%- if line_item.fulfillment != blank and line_item.fulfillment.tracking_url != blank %}
+              <br><a href="{{ line_item.fulfillment.tracking_url }}" rel="noopener" target="_blank">{{ 'customer.orders.track' | t }}</a>
+            {%- endif -%}
+          </th>
+          <td>{{ line_item.quantity }}</td>
+          <td>{{ line_item.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+    <tfoot>
+      <tr><th scope="row" colspan="2">{{ 'customer.orders.subtotal' | t }}</th><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+      {%- for shipping_method in order.shipping_methods -%}
+        <tr><th scope="row" colspan="2">{{ shipping_method.title | escape }}</th><td>{{ shipping_method.price | money }}</td></tr>
+      {%- endfor -%}
+      {%- for tax_line in order.tax_lines -%}
+        <tr><th scope="row" colspan="2">{{ tax_line.title | escape }}</th><td>{{ tax_line.price | money }}</td></tr>
+      {%- endfor -%}
+      <tr><th scope="row" colspan="2">{{ 'customer.orders.total' | t }}</th><td>{{ order.total_price | money_with_currency }}</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="account__grid">
+    <div class="card account__details">
+      <h2 class="heading">{{ 'customer.orders.shipping_address' | t }}</h2>
+      <address>{{ order.shipping_address | format_address }}</address>
+    </div>
+    <div class="card account__details">
+      <h2 class="heading">{{ 'customer.orders.billing_address' | t }}</h2>
+      <address>{{ order.billing_address | format_address }}</address>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ordre",
+  "settings": []
+}
+{% endschema %}

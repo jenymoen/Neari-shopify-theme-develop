@@ -1,0 +1,164 @@
+<section class="cart-page page-width">
+  <h1 class="display-l">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart == empty -%}
+    <div class="cart-page__empty">
+      <p class="text-muted">{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="button button--primary">{{ 'cart.continue_shopping' | t }}</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__form" id="CartPageForm">
+      <ul class="cart-page__items" role="list">
+        {%- for item in cart.items -%}
+          <li class="cart-page__item card">
+            <a class="cart-page__image media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+              {% render 'image', image: item.image, sizes: '96px', widths: '96, 192, 288', alt: '' %}
+            </a>
+            <div class="cart-page__info">
+              <a class="cart-page__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <span class="body-s text-muted">{{ item.variant.title | escape }}</span>
+              {%- endunless -%}
+              <span class="body-s text-muted">{{ item.final_price | money }}</span>
+              <div class="cart-page__controls">
+                <label class="visually-hidden" for="Quantity-{{ item.index }}">{{ 'cart.quantity_for' | t: product: item.product.title }}</label>
+                <quantity-input class="quantity">
+                  <button type="button" class="quantity__button" data-quantity-step="-1" aria-label="{{ 'cart.decrease' | t: product: item.product.title }}">{% render 'icon', name: 'minus', size: 16 %}</button>
+                  <input id="Quantity-{{ item.index }}" class="quantity__input" type="number" name="updates[]" inputmode="numeric" min="0" max="99" value="{{ item.quantity }}">
+                  <button type="button" class="quantity__button" data-quantity-step="1" aria-label="{{ 'cart.increase' | t: product: item.product.title }}">{% render 'icon', name: 'plus', size: 16 %}</button>
+                </quantity-input>
+                <a class="body-s" href="{{ item.url_to_remove }}" aria-label="{{ 'cart.remove' | t: product: item.product.title }}">{{ 'cart.remove_short' | t }}</a>
+              </div>
+            </div>
+            <span class="cart-page__total">{{ item.final_line_price | money }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <aside class="cart-page__summary card">
+        <div class="cart-page__subtotal">
+          <span>{{ 'cart.total' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="fine-print">
+          {%- if cart.taxes_included -%}{{ 'cart.taxes_included' | t }}{%- endif %}
+          {{ 'cart.shipping_at_checkout' | t }}
+        </p>
+        {%- if section.settings.show_note -%}
+          <div class="field">
+            <label class="field__label" for="CartNote">{{ 'cart.note' | t }}</label>
+            <textarea id="CartNote" class="textarea" name="note">{{ cart.note }}</textarea>
+          </div>
+        {%- endif -%}
+        <button type="submit" name="update" class="button button--secondary button--full">{{ 'cart.update' | t }}</button>
+        <button type="submit" name="checkout" class="button button--primary button--full">{{ 'cart.checkout' | t }}</button>
+      </aside>
+    </form>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .cart-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .cart-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .cart-page__form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  @media (min-width: 990px) {
+    .cart-page__form {
+      grid-template-columns: 1fr 380px;
+    }
+  }
+
+  .cart-page__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cart-page__item {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-3);
+  }
+
+  .cart-page__image {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    border-radius: 12px;
+    background: var(--color-sky);
+  }
+
+  .cart-page__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cart-page__title {
+    color: var(--color-ink);
+    font: 600 18px/26px var(--font-sans);
+  }
+
+  .cart-page__controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+  }
+
+  .cart-page__total {
+    font: 600 16px/24px var(--font-sans);
+    white-space: nowrap;
+  }
+
+  .cart-page__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .cart-page__subtotal {
+    display: flex;
+    justify-content: space-between;
+    font: 600 18px/28px var(--font-sans);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Handlekurv",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "Vis ordrenotat",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

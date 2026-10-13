@@ -1,0 +1,286 @@
+<footer class="footer">
+  <div class="footer__inner page-width">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="{{ 'neari-logo-negativ.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="106" height="32" loading="lazy">
+        {%- if section.settings.tagline != blank -%}
+          <p class="footer__tagline">{{ section.settings.tagline | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.show_newsletter -%}
+          {%- form 'customer', id: 'FooterNewsletter', class: 'footer__newsletter' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <label class="visually-hidden" for="FooterEmail-{{ section.id }}">{{ 'footer.newsletter.email_label' | t }}</label>
+            <input id="FooterEmail-{{ section.id }}" class="footer__input" type="email" name="contact[email]" placeholder="{{ 'footer.newsletter.placeholder' | t }}" autocomplete="email" required value="{{ form.email | escape }}"{% if form.errors %} aria-invalid="true" aria-describedby="FooterNewsletterMessage-{{ section.id }}"{% endif %}>
+            <button type="submit" class="button button--on-dark">{{ 'footer.newsletter.submit' | t }}</button>
+            <div id="FooterNewsletterMessage-{{ section.id }}" class="footer__message" role="status">
+              {%- if form.posted_successfully? -%}
+                {{ 'footer.newsletter.success' | t }}
+              {%- elsif form.errors -%}
+                {{ form.errors.messages['email'] | default: form.errors | default_errors }}
+              {%- endif -%}
+            </div>
+          {%- endform -%}
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <nav class="footer__column" aria-label="{{ block.settings.heading | escape }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__heading label label--caps">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              <ul role="list">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- when 'text' -%}
+            <div class="footer__column" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__heading label label--caps">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              <div class="footer__text rte">{{ block.settings.text }}</div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+
+      {%- if settings.social_instagram != blank or settings.social_facebook != blank or settings.social_tiktok != blank or settings.social_youtube != blank -%}
+        <nav class="footer__column" aria-label="{{ 'footer.social' | t }}">
+          <h2 class="footer__heading label label--caps">{{ 'footer.social' | t }}</h2>
+          <ul role="list">
+            {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" rel="noopener" target="_blank">Instagram</a></li>{%- endif -%}
+            {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" rel="noopener" target="_blank">Facebook</a></li>{%- endif -%}
+            {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" rel="noopener" target="_blank">TikTok</a></li>{%- endif -%}
+            {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" rel="noopener" target="_blank">YouTube</a></li>{%- endif -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_localization and localization.available_countries.size > 1 or section.settings.show_localization and localization.available_languages.size > 1 -%}
+      {%- form 'localization', id: 'FooterLocalization', class: 'footer__localization' -%}
+        {%- if localization.available_countries.size > 1 -%}
+          <div class="footer__select">
+            <label class="label" for="FooterCountry-{{ section.id }}">{{ 'footer.country' | t }}</label>
+            <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+            <select id="FooterCountry-{{ section.id }}" class="select" data-localization-select="country_code">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.name | escape }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+        {%- if localization.available_languages.size > 1 -%}
+          <div class="footer__select">
+            <label class="label" for="FooterLanguage-{{ section.id }}">{{ 'footer.language' | t }}</label>
+            <input type="hidden" name="language_code" value="{{ localization.language.iso_code }}">
+            <select id="FooterLanguage-{{ section.id }}" class="select" data-localization-select="language_code">
+              {%- for language in localization.available_languages -%}
+                <option value="{{ language.iso_code }}" lang="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name | capitalize }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+        <noscript><button type="submit" class="button button--on-dark">{{ 'footer.update' | t }}</button></noscript>
+      {%- endform -%}
+    {%- endif -%}
+
+    <div class="footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</span>
+      {%- if section.settings.disclaimer != blank and localization.country.iso_code == 'NO' -%}
+        <span>{{ section.settings.disclaimer | escape }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .footer {
+    background: var(--color-fjord);
+    color: var(--color-sand);
+    margin-top: auto;
+  }
+
+  .footer a {
+    color: var(--color-sand);
+  }
+
+  .footer a:hover {
+    color: var(--color-coral);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding-block: var(--space-12) var(--space-8);
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--space-8);
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .footer__brand img {
+    align-self: flex-start;
+  }
+
+  @media (min-width: 750px) {
+    .footer__brand {
+      grid-column: span 2;
+    }
+  }
+
+  .footer__tagline {
+    font: 700 32px/36px var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .footer__newsletter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    max-width: 440px;
+  }
+
+  .footer__input {
+    flex: 1;
+    min-width: 180px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-s);
+    border: 1px solid var(--color-dark-line);
+    background: var(--color-dark-surface);
+    color: var(--color-dark-text);
+    font: 400 16px/24px var(--font-sans);
+  }
+
+  .footer__input::placeholder {
+    color: var(--color-dark-muted);
+  }
+
+  .footer__message {
+    flex-basis: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-dark-muted);
+  }
+
+  .footer__message:empty {
+    display: none;
+  }
+
+  .footer__column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font: 400 15px/22px var(--font-sans);
+  }
+
+  .footer__column ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer__heading {
+    color: var(--color-dark-muted);
+  }
+
+  .footer__localization {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .footer__select {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 220px;
+  }
+
+  .footer__select .select {
+    background: var(--color-dark-surface);
+    border-color: var(--color-dark-line);
+    color: var(--color-dark-text);
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-dark-line);
+    font: 400 13px/18px var(--font-sans);
+    color: var(--color-dark-muted);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Slagord",
+      "default": "Always near."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Vis nyhetsbrev",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_localization",
+      "label": "Vis språk- og landvelger",
+      "info": "Vises kun når butikken har flere språk eller land i Markets.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Ice Junior-merknad",
+      "info": "Vises kun for det norske markedet.",
+      "default": "Ice Junior leveres av Ice. Gjelder barn under 13 år, kun i Norge og i Ices nett."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Meny",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Overskrift", "default": "Klokker" },
+        { "type": "link_list", "id": "menu", "label": "Meny", "default": "footer" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Tekst",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Overskrift" },
+        { "type": "richtext", "id": "text", "label": "Tekst" }
+      ]
+    }
+  ],
+  "max_blocks": 4
+}
+{% endschema %}

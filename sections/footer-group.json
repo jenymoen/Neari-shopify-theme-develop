@@ -1,0 +1,33 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu_klokker": {
+          "type": "menu",
+          "settings": {
+            "heading": "Klokker",
+            "menu": "footer"
+          }
+        },
+        "menu_hjelp": {
+          "type": "menu",
+          "settings": {
+            "heading": "Hjelp",
+            "menu": "footer-help"
+          }
+        }
+      },
+      "block_order": ["menu_klokker", "menu_hjelp"],
+      "settings": {
+        "tagline": "Always near.",
+        "show_newsletter": true,
+        "show_localization": true,
+        "disclaimer": "Ice Junior leveres av Ice. Gjelder barn under 13 år, kun i Norge og i Ices nett."
+      }
+    }
+  },
+  "order": ["footer"]
+}

@@ -1,0 +1,159 @@
+{%- if section.settings.norway_only == false or localization.country.iso_code == 'NO' -%}
+  <section class="ice-junior page-width" id="{{ section.settings.anchor | default: 'ice' | handleize }}">
+    <div class="ice-junior__box">
+      <div class="ice-junior__intro">
+        {%- if section.settings.badge != blank -%}
+          <span class="badge badge--white">{{ section.settings.badge | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="display-l">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.fine_print != blank -%}
+          <p class="fine-print ice-junior__fine-print">{{ section.settings.fine_print | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <ol class="ice-junior__steps" role="list">
+        {%- for block in section.blocks -%}
+          <li class="ice-junior__step" {{ block.shopify_attributes }}>
+            <span class="ice-junior__number" aria-hidden="true">{{ forloop.index }}</span>
+            <div class="ice-junior__step-text">
+              <strong>{{ block.settings.title | escape }}</strong>
+              <span class="text-muted">{{ block.settings.text | escape }}</span>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .ice-junior {
+    padding-bottom: var(--section-gap);
+  }
+
+  .ice-junior__box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-12);
+    padding: clamp(32px, 5vw, 64px);
+    border-radius: var(--radius-l);
+    background: var(--color-sky);
+  }
+
+  .ice-junior__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .ice-junior__fine-print {
+    max-width: 380px;
+  }
+
+  .ice-junior__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ice-junior__step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: 20px var(--space-6);
+    border-radius: var(--radius-m);
+    background: var(--color-surface-raised);
+  }
+
+  .ice-junior__number {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    background: var(--color-fjord);
+    color: var(--color-sand);
+    font: 700 16px/36px var(--font-display);
+    text-align: center;
+  }
+
+  .ice-junior__step-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .ice-junior__step-text strong {
+    font: 600 17px/24px var(--font-sans);
+  }
+
+  .ice-junior__step-text span {
+    font-size: 15px;
+    line-height: 22px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ice Junior",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "norway_only",
+      "label": "Vis kun i det norske markedet",
+      "info": "Ice Junior finnes ikke i Sverige og Danmark.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anker-ID",
+      "default": "ice"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Merke",
+      "default": "0 kr/mnd med Ice Junior"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Slik får du 0 kr i måneden"
+    },
+    {
+      "type": "textarea",
+      "id": "fine_print",
+      "label": "Liten tekst",
+      "info": "Skal alltid være med. Ikke bruk Ices logo eller farger.",
+      "default": "Ice Junior leveres av Ice. Gjelder barn under 13 år, kun i Norge og i Ices nett. Sjekk dekning på ice.no."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Steg",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Tittel", "default": "Kjøp Neari Go" },
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Én engangssum for klokka." }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Ice Junior",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Kjøp Neari Go", "text": "Én engangssum for klokka." } },
+        { "type": "step", "settings": { "title": "Bestill Ice Junior", "text": "Gratis for barn under 13 år, 1 GB data. Du trenger ikke være Ice-kunde." } },
+        { "type": "step", "settings": { "title": "Sett inn SIM-kortet", "text": "Koble klokka til appen, og legg inn tre faste nummer." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

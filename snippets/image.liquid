@@ -1,0 +1,36 @@
+{% doc %}
+  Responsivt bilde med riktig image_url/image_tag, eller en plassholder når bildet mangler.
+
+  @param {image} [image] - Bildet som skal vises
+  @param {string} [sizes] - sizes-attributt. Standard 100vw
+  @param {string} [widths] - Kommaseparerte bredder. Standard 360, 540, 720, 900, 1200, 1600
+  @param {boolean} [priority] - true for bilde over folden (fetchpriority high, ingen lazy)
+  @param {string} [class] - Klasse på img
+  @param {string} [placeholder] - Navn på plassholder-illustrasjon (standard: product-1)
+  @param {string} [alt] - Overstyr alt-tekst (tom streng for dekorative bilder)
+
+  @example
+  {% render 'image', image: section.settings.image, sizes: '(min-width: 990px) 50vw, 100vw', priority: true %}
+{% enddoc %}
+
+{%- liquid
+  assign image_widths = widths | default: '360, 540, 720, 900, 1200, 1600'
+  assign image_sizes = sizes | default: '100vw'
+  assign loading_mode = 'lazy'
+  assign fetch_priority = 'auto'
+  if priority
+    assign loading_mode = 'eager'
+    assign fetch_priority = 'high'
+  endif
+-%}
+{%- if image != blank -%}
+  {%- if alt != nil -%}
+    {{- image | image_url: width: 1600 | image_tag: widths: image_widths, sizes: image_sizes, loading: loading_mode, fetchpriority: fetch_priority, class: class, alt: alt -}}
+  {%- else -%}
+    {{- image | image_url: width: 1600 | image_tag: widths: image_widths, sizes: image_sizes, loading: loading_mode, fetchpriority: fetch_priority, class: class -}}
+  {%- endif -%}
+{%- else -%}
+  <span class="placeholder{% if class != blank %} {{ class }}{% endif %}" role="img" aria-label="{{ 'general.placeholder_image' | t }}">
+    {{- placeholder | default: 'product-1' | placeholder_svg_tag -}}
+  </span>
+{%- endif -%}

@@ -1,0 +1,175 @@
+<section class="feature-grid" id="{{ section.settings.anchor | default: 'slik' | handleize }}">
+  <div class="feature-grid__inner page-width">
+    <div class="feature-grid__intro">
+      {%- if section.settings.show_logo -%}
+        <img src="{{ 'neari-logo-negativ.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="93" height="28" loading="lazy">
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="display-l">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+    </div>
+
+    <ul class="feature-grid__list" role="list">
+      {%- for block in section.blocks -%}
+        <li class="feature-grid__item" {{ block.shopify_attributes }}>
+          <span class="feature-grid__icon feature-grid__icon--{{ block.settings.color }}">
+            {% render 'icon', name: block.settings.icon, size: 22 %}
+          </span>
+          <h3 class="feature-grid__title">{{ block.settings.title | escape }}</h3>
+          <p class="feature-grid__text">{{ block.settings.text | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .feature-grid {
+    background: var(--color-fjord);
+    color: var(--color-sand);
+    margin-bottom: 0;
+  }
+
+  .feature-grid__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding-block: var(--section-gap);
+  }
+
+  .feature-grid__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 640px;
+  }
+
+  .feature-grid__intro img {
+    align-self: flex-start;
+  }
+
+  .feature-grid__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .feature-grid__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border-radius: var(--radius-m);
+    background: var(--color-dark-surface);
+  }
+
+  .feature-grid__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    color: var(--color-fjord);
+  }
+
+  .feature-grid__icon--coral {
+    background: var(--color-coral);
+  }
+
+  .feature-grid__icon--sky {
+    background: var(--color-sky);
+  }
+
+  .feature-grid__icon--sage {
+    background: var(--color-sage);
+  }
+
+  .feature-grid__title {
+    font: 600 20px/26px var(--font-display);
+  }
+
+  .feature-grid__text {
+    font: 400 15px/22px var(--font-sans);
+    color: var(--color-dark-body);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funksjoner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Alt dere trenger. Ingenting mer."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo",
+      "label": "Vis logo over overskriften",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anker-ID",
+      "default": "slik"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Funksjon",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ikon",
+          "options": [
+            { "value": "phone", "label": "Samtale" },
+            { "value": "map-pin", "label": "Posisjon" },
+            { "value": "shield", "label": "SOS" },
+            { "value": "school", "label": "Skolemodus" },
+            { "value": "battery", "label": "Batteri" },
+            { "value": "check", "label": "Hake" },
+            { "value": "star", "label": "Stjerne" },
+            { "value": "globe", "label": "Globus" }
+          ],
+          "default": "phone"
+        },
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Ikonfarge",
+          "options": [
+            { "value": "coral", "label": "Coral" },
+            { "value": "sky", "label": "Sky" },
+            { "value": "sage", "label": "Sage" }
+          ],
+          "default": "coral"
+        },
+        { "type": "text", "id": "title", "label": "Tittel", "default": "Samtale" },
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Ring tre faste nummer, rett fra håndleddet." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Funksjoner",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "phone", "color": "coral", "title": "Samtale", "text": "Ring tre faste nummer, rett fra håndleddet." } },
+        { "type": "feature", "settings": { "icon": "map-pin", "color": "sky", "title": "Posisjon", "text": "Se hvor barnet er, i sanntid." } },
+        { "type": "feature", "settings": { "icon": "shield", "color": "coral", "title": "SOS", "text": "Et trykk, så ringer klokka deg." } },
+        { "type": "feature", "settings": { "icon": "school", "color": "sage", "title": "Skolemodus", "text": "Stille i timene, åpen i friminuttet." } },
+        { "type": "feature", "settings": { "icon": "battery", "color": "sky", "title": "Batteri", "text": "Varer hele skoledagen og litt til." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

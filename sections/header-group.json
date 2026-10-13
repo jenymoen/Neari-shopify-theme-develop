@@ -1,0 +1,20 @@
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Én gang betalt. 0 kr i måneden med Ice Junior."
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_height": 30,
+        "menu": "main-menu"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

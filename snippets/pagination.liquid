@@ -1,0 +1,26 @@
+{% doc %}
+  Tilgjengelig sidenummerering for {% paginate %}.
+
+  @param {object} paginate - paginate-objektet
+
+  @example
+  {% render 'pagination', paginate: paginate %}
+{% enddoc %}
+
+<nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+  {%- if paginate.previous -%}
+    <a href="{{ paginate.previous.url }}" rel="prev" aria-label="{{ 'general.pagination.previous' | t }}">&larr;</a>
+  {%- endif -%}
+  {%- for part in paginate.parts -%}
+    {%- if part.is_link -%}
+      <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+    {%- elsif part.title == paginate.current_page -%}
+      <span aria-current="page">{{ part.title }}</span>
+    {%- else -%}
+      <span>{{ part.title }}</span>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if paginate.next -%}
+    <a href="{{ paginate.next.url }}" rel="next" aria-label="{{ 'general.pagination.next' | t }}">&rarr;</a>
+  {%- endif -%}
+</nav>

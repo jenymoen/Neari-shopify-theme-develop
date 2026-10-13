@@ -1,0 +1,117 @@
+{%- liquid
+  assign products_to_show = section.settings.collection.products
+  if section.settings.collection == blank
+    assign products_to_show = collections.all.products
+  endif
+-%}
+<section class="featured-products page-width" id="{{ section.settings.anchor | default: 'klokker' | handleize }}">
+  <div class="featured-products__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="display-l">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.link_label != blank -%}
+      <a href="{{ section.settings.link_url | default: section.settings.collection.url | default: routes.all_products_collection_url }}" class="label-link">{{ section.settings.link_label | escape }}</a>
+    {%- endif -%}
+  </div>
+
+  <ul class="featured-products__grid" role="list">
+    {%- for product in products_to_show limit: section.settings.limit -%}
+      <li>
+        {% render 'product-card', product: product, priority: false %}
+      </li>
+    {%- else -%}
+      {%- for i in (1..2) -%}
+        {%- assign placeholder_name = 'product-' | append: i -%}
+        <li>
+          <div class="product-card card">
+            <div class="product-card__media media">{% render 'image', placeholder: placeholder_name %}</div>
+            <div class="product-card__body">
+              <h3 class="heading">{{ 'products.product.placeholder_title' | t }}</h3>
+            </div>
+          </div>
+        </li>
+      {%- endfor -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% stylesheet %}
+  .featured-products {
+    padding-bottom: var(--section-gap);
+  }
+
+  .featured-products__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .label-link {
+    font-weight: 600;
+  }
+
+  .featured-products__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Produktutvalg",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Velg klokka"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anker-ID",
+      "info": "Brukes av «Se klokkene»-knappen i heroen.",
+      "default": "klokker"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Kolleksjon",
+      "info": "Tom viser alle produkter."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Maks antall produkter",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Lenketekst",
+      "default": "Sammenlign modellene"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Lenke",
+      "info": "Tom bruker kolleksjonens side."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Produktutvalg"
+    }
+  ]
+}
+{% endschema %}

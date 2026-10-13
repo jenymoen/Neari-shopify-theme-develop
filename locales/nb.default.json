@@ -1,0 +1,188 @@
+{
+  "general": {
+    "home": "Hjem",
+    "breadcrumbs": "Brødsmulesti",
+    "close": "Lukk",
+    "placeholder_image": "Plassholderbilde",
+    "meta": {
+      "tagged": "Merket {{ tags }}",
+      "page": "Side {{ page }}"
+    },
+    "accessibility": {
+      "skip_to_content": "Hopp til innhold"
+    },
+    "header": {
+      "menu": "Meny",
+      "main_navigation": "Hovednavigasjon",
+      "search": "Søk",
+      "account": "Konto",
+      "cart": "Handlekurv"
+    },
+    "search": {
+      "placeholder": "Søk i butikken",
+      "submit": "Søk"
+    },
+    "pagination": {
+      "label": "Sidenummerering",
+      "previous": "Forrige side",
+      "next": "Neste side",
+      "page": "Gå til side {{ number }}"
+    },
+    "404": {
+      "title": "Fant ikke siden",
+      "text": "Siden du leter etter finnes ikke lenger, eller adressen er skrevet feil.",
+      "button": "Tilbake til forsiden"
+    }
+  },
+  "products": {
+    "badges": {
+      "ice_junior": "0 kr/mnd med Ice Junior",
+      "care": "Enkel for besteforeldre",
+      "own_sim": "Ingen Neari-avgift",
+      "specs": "4G · GPS · SOS"
+    },
+    "fine_print": {
+      "ice_junior": "Ice Junior leveres av Ice. Gjelder barn under 13 år, kun i Norge og i Ices nett. Sjekk dekning på ice.no.",
+      "own_sim": "Fungerer med vanlig nano-SIM fra alle operatører. Ingen Neari-avgift."
+    },
+    "product": {
+      "add_to_cart": "Legg i handlekurv",
+      "sold_out": "Utsolgt",
+      "unavailable": "Ikke tilgjengelig",
+      "price": "Pris",
+      "sale_price": "Salgspris",
+      "regular_price": "Ordinær pris",
+      "from_price": "Fra {{ price }}",
+      "taxes_included": "Inkl. mva.",
+      "quantity": "Antall",
+      "increase_quantity": "Flere",
+      "decrease_quantity": "Færre",
+      "show_image": "Vis bilde {{ index }}",
+      "placeholder_title": "Produktnavn"
+    }
+  },
+  "cart": {
+    "title": "Handlekurv",
+    "empty": "Handlekurven er tom.",
+    "continue_shopping": "Se klokkene",
+    "total": "Totalt",
+    "checkout": "Gå til kassen",
+    "update": "Oppdater handlekurv",
+    "note": "Notat til ordren",
+    "remove": "Fjern {{ product }}",
+    "remove_short": "Fjern",
+    "increase": "Flere {{ product }}",
+    "decrease": "Færre {{ product }}",
+    "quantity_for": "Antall for {{ product }}",
+    "taxes_included": "Inkl. mva.",
+    "shipping_at_checkout": "Frakt beregnes i kassen.",
+    "updated": "Handlekurven er oppdatert.",
+    "error": "Noe gikk galt. Prøv igjen."
+  },
+  "collection": {
+    "sort_by": "Sorter etter",
+    "apply": "Bruk",
+    "empty": "Ingen produkter funnet.",
+    "list_title": "Kolleksjoner"
+  },
+  "blog": {
+    "empty": "Ingen innlegg ennå.",
+    "back": "Tilbake til bloggen"
+  },
+  "search": {
+    "title": "Søk",
+    "results_count": {
+      "one": "{{ count }} treff for «{{ terms }}»",
+      "other": "{{ count }} treff for «{{ terms }}»"
+    },
+    "no_results": "Ingen treff. Prøv et annet søkeord."
+  },
+  "footer": {
+    "social": "Følg oss",
+    "country": "Land/område",
+    "language": "Språk",
+    "update": "Oppdater",
+    "newsletter": {
+      "email_label": "E-post",
+      "placeholder": "Din e-post",
+      "submit": "Meld meg på",
+      "success": "Takk! Du er påmeldt."
+    }
+  },
+  "password": {
+    "title": "Butikken åpner snart",
+    "label": "Passord",
+    "submit": "Åpne",
+    "wrong": "Feil passord."
+  },
+  "customer": {
+    "fields": {
+      "email": "E-post",
+      "password": "Passord",
+      "password_confirmation": "Bekreft passord",
+      "first_name": "Fornavn",
+      "last_name": "Etternavn"
+    },
+    "login": {
+      "title": "Logg inn",
+      "submit": "Logg inn",
+      "forgot": "Glemt passord?",
+      "create_account": "Opprett konto"
+    },
+    "recover": {
+      "title": "Tilbakestill passord",
+      "submit": "Send lenke",
+      "success": "Vi har sendt deg en e-post med en lenke for å tilbakestille passordet."
+    },
+    "register": {
+      "title": "Opprett konto",
+      "submit": "Opprett konto",
+      "have_account": "Har du allerede konto? Logg inn"
+    },
+    "reset": {
+      "title": "Nytt passord",
+      "submit": "Lagre passord"
+    },
+    "activate": {
+      "title": "Aktiver konto",
+      "submit": "Aktiver konto",
+      "decline": "Avslå invitasjon"
+    },
+    "account": {
+      "title": "Min konto",
+      "logout": "Logg ut",
+      "orders": "Bestillinger",
+      "details": "Kontodetaljer",
+      "addresses": "Se adresser"
+    },
+    "orders": {
+      "order": "Bestilling",
+      "order_title": "Bestilling {{ name }}",
+      "date": "Dato",
+      "payment_status": "Betaling",
+      "fulfillment_status": "Levering",
+      "total": "Totalt",
+      "none": "Du har ingen bestillinger ennå.",
+      "back": "Tilbake til kontoen",
+      "product": "Produkt",
+      "quantity": "Antall",
+      "subtotal": "Delsum",
+      "track": "Spor forsendelse",
+      "shipping_address": "Leveringsadresse",
+      "billing_address": "Fakturaadresse"
+    },
+    "addresses": {
+      "title": "Adresser",
+      "add": "Legg til adresse",
+      "edit": "Rediger",
+      "delete": "Slett",
+      "save": "Lagre adresse",
+      "default": "Standard",
+      "none": "Du har ingen lagrede adresser.",
+      "address1": "Adresse",
+      "zip": "Postnummer",
+      "city": "Sted",
+      "country": "Land"
+    }
+  }
+}

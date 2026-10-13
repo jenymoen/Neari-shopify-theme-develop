@@ -1,0 +1,27 @@
+{% doc %}
+  Liten tekst under produktet. Ice Junior-teksten vises alltid sammen med Ice Junior-merket (kun Norge, kun barn-segmentet).
+  Overstyres av metafeltet neari.fine_print.
+
+  @param {product} product - Produktet
+  @param {string} [class] - Ekstra klasser
+
+  @example
+  {% render 'product-fine-print', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign segment = product.metafields.neari.segment.value | default: 'barn' | downcase
+  if product.tags contains 'eldre'
+    assign segment = 'eldre'
+  endif
+
+  assign fine_print = product.metafields.neari.fine_print.value
+  if fine_print == blank
+    if segment == 'barn' and localization.country.iso_code == 'NO'
+      assign fine_print = 'products.fine_print.ice_junior' | t
+    else
+      assign fine_print = 'products.fine_print.own_sim' | t
+    endif
+  endif
+-%}
+<p class="fine-print{% if class != blank %} {{ class }}{% endif %}">{{ fine_print | escape }}</p>

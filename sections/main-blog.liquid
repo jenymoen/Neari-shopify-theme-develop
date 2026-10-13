@@ -1,0 +1,95 @@
+<section class="blog page-width">
+  <h1 class="display-l">{{ blog.title | escape }}</h1>
+
+  {%- paginate blog.articles by section.settings.posts_per_page -%}
+    {%- if blog.articles.size == 0 -%}
+      <p class="text-muted">{{ 'blog.empty' | t }}</p>
+    {%- else -%}
+      <ul class="blog__grid" role="list">
+        {%- for article in blog.articles -%}
+          <li>
+            <a class="blog__card card" href="{{ article.url }}">
+              <div class="blog__media media">
+                {% render 'image', image: article.image, sizes: '(min-width: 990px) 33vw, 100vw', widths: '360, 540, 720, 900' %}
+              </div>
+              <div class="blog__body">
+                <span class="body-s text-muted">{{ article.published_at | time_tag: format: 'date' }}</span>
+                <h2 class="heading">{{ article.title | escape }}</h2>
+                {%- if article.excerpt_or_content != blank -%}
+                  <p class="text-muted">{{ article.excerpt_or_content | strip_html | truncate: 140 }}</p>
+                {%- endif -%}
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    {%- if paginate.pages > 1 -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% stylesheet %}
+  .blog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .blog__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .blog__card:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .blog__media {
+    aspect-ratio: 4 / 3;
+    margin: var(--space-3);
+    border-radius: 12px;
+    background: var(--color-sky);
+  }
+
+  .blog__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6) var(--space-6);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Blogg",
+  "settings": [
+    {
+      "type": "range",
+      "id": "posts_per_page",
+      "label": "Innlegg per side",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 9
+    }
+  ]
+}
+{% endschema %}

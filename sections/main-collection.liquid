@@ -1,0 +1,106 @@
+<section class="collection page-width">
+  <header class="collection__header">
+    <div class="collection__title-group">
+      <h1 class="display-l">{{ collection.title | escape }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="rte text-muted collection__description">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_sort and collection.products_count > 1 -%}
+      <form class="collection__sort" method="get" action="{{ collection.url }}">
+        <label class="label" for="SortBy-{{ section.id }}">{{ 'collection.sort_by' | t }}</label>
+        <select id="SortBy-{{ section.id }}" class="select" name="sort_by" onchange="this.form.submit()">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == collection.sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+        <noscript><button type="submit" class="button button--secondary">{{ 'collection.apply' | t }}</button></noscript>
+      </form>
+    {%- endif -%}
+  </header>
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {%- if collection.products.size == 0 -%}
+      <p class="collection__empty text-muted">{{ 'collection.empty' | t }}</p>
+    {%- else -%}
+      <ul class="collection__grid" role="list">
+        {%- for product in collection.products -%}
+          {%- assign above_fold = false -%}
+          {%- if forloop.index0 < 2 -%}{%- assign above_fold = true -%}{%- endif -%}
+          <li>
+            {% render 'product-card', product: product, priority: above_fold %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% stylesheet %}
+  .collection {
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .collection__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .collection__title-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 640px;
+  }
+
+  .collection__sort {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .collection__sort .select {
+    width: auto;
+  }
+
+  .collection__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Kolleksjon",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Produkter per side",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Vis sortering",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

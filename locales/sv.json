@@ -1,0 +1,188 @@
+{
+  "general": {
+    "home": "Hem",
+    "breadcrumbs": "Sökväg",
+    "close": "Stäng",
+    "placeholder_image": "Platshållarbild",
+    "meta": {
+      "tagged": "Taggad {{ tags }}",
+      "page": "Sida {{ page }}"
+    },
+    "accessibility": {
+      "skip_to_content": "Hoppa till innehåll"
+    },
+    "header": {
+      "menu": "Meny",
+      "main_navigation": "Huvudnavigering",
+      "search": "Sök",
+      "account": "Konto",
+      "cart": "Varukorg"
+    },
+    "search": {
+      "placeholder": "Sök i butiken",
+      "submit": "Sök"
+    },
+    "pagination": {
+      "label": "Sidnumrering",
+      "previous": "Föregående sida",
+      "next": "Nästa sida",
+      "page": "Gå till sida {{ number }}"
+    },
+    "404": {
+      "title": "Sidan hittades inte",
+      "text": "Sidan du letar efter finns inte längre, eller så är adressen felstavad.",
+      "button": "Tillbaka till startsidan"
+    }
+  },
+  "products": {
+    "badges": {
+      "ice_junior": "0 kr/mån med Ice Junior",
+      "care": "Enkel för far- och morföräldrar",
+      "own_sim": "Ingen Neari-avgift",
+      "specs": "4G · GPS · SOS"
+    },
+    "fine_print": {
+      "ice_junior": "Ice Junior levereras av Ice. Gäller barn under 13 år, endast i Norge och i Ices nät. Kontrollera täckning på ice.no.",
+      "own_sim": "Fungerar med vanligt nano-SIM från alla operatörer. Ingen Neari-avgift."
+    },
+    "product": {
+      "add_to_cart": "Lägg i varukorgen",
+      "sold_out": "Slutsåld",
+      "unavailable": "Inte tillgänglig",
+      "price": "Pris",
+      "sale_price": "Reapris",
+      "regular_price": "Ordinarie pris",
+      "from_price": "Från {{ price }}",
+      "taxes_included": "Inkl. moms.",
+      "quantity": "Antal",
+      "increase_quantity": "Fler",
+      "decrease_quantity": "Färre",
+      "show_image": "Visa bild {{ index }}",
+      "placeholder_title": "Produktnamn"
+    }
+  },
+  "cart": {
+    "title": "Varukorg",
+    "empty": "Din varukorg är tom.",
+    "continue_shopping": "Se klockorna",
+    "total": "Totalt",
+    "checkout": "Gå till kassan",
+    "update": "Uppdatera varukorgen",
+    "note": "Meddelande till beställningen",
+    "remove": "Ta bort {{ product }}",
+    "remove_short": "Ta bort",
+    "increase": "Fler {{ product }}",
+    "decrease": "Färre {{ product }}",
+    "quantity_for": "Antal för {{ product }}",
+    "taxes_included": "Inkl. moms.",
+    "shipping_at_checkout": "Frakt beräknas i kassan.",
+    "updated": "Varukorgen har uppdaterats.",
+    "error": "Något gick fel. Försök igen."
+  },
+  "collection": {
+    "sort_by": "Sortera efter",
+    "apply": "Använd",
+    "empty": "Inga produkter hittades.",
+    "list_title": "Kollektioner"
+  },
+  "blog": {
+    "empty": "Inga inlägg ännu.",
+    "back": "Tillbaka till bloggen"
+  },
+  "search": {
+    "title": "Sök",
+    "results_count": {
+      "one": "{{ count }} träff för ”{{ terms }}”",
+      "other": "{{ count }} träffar för ”{{ terms }}”"
+    },
+    "no_results": "Inga träffar. Prova ett annat sökord."
+  },
+  "footer": {
+    "social": "Följ oss",
+    "country": "Land/region",
+    "language": "Språk",
+    "update": "Uppdatera",
+    "newsletter": {
+      "email_label": "E-post",
+      "placeholder": "Din e-post",
+      "submit": "Anmäl mig",
+      "success": "Tack! Du är anmäld."
+    }
+  },
+  "password": {
+    "title": "Butiken öppnar snart",
+    "label": "Lösenord",
+    "submit": "Öppna",
+    "wrong": "Fel lösenord."
+  },
+  "customer": {
+    "fields": {
+      "email": "E-post",
+      "password": "Lösenord",
+      "password_confirmation": "Bekräfta lösenord",
+      "first_name": "Förnamn",
+      "last_name": "Efternamn"
+    },
+    "login": {
+      "title": "Logga in",
+      "submit": "Logga in",
+      "forgot": "Glömt lösenordet?",
+      "create_account": "Skapa konto"
+    },
+    "recover": {
+      "title": "Återställ lösenord",
+      "submit": "Skicka länk",
+      "success": "Vi har skickat ett e-postmeddelande med en länk för att återställa lösenordet."
+    },
+    "register": {
+      "title": "Skapa konto",
+      "submit": "Skapa konto",
+      "have_account": "Har du redan ett konto? Logga in"
+    },
+    "reset": {
+      "title": "Nytt lösenord",
+      "submit": "Spara lösenord"
+    },
+    "activate": {
+      "title": "Aktivera konto",
+      "submit": "Aktivera konto",
+      "decline": "Avböj inbjudan"
+    },
+    "account": {
+      "title": "Mitt konto",
+      "logout": "Logga ut",
+      "orders": "Beställningar",
+      "details": "Kontouppgifter",
+      "addresses": "Visa adresser"
+    },
+    "orders": {
+      "order": "Beställning",
+      "order_title": "Beställning {{ name }}",
+      "date": "Datum",
+      "payment_status": "Betalning",
+      "fulfillment_status": "Leverans",
+      "total": "Totalt",
+      "none": "Du har inga beställningar ännu.",
+      "back": "Tillbaka till kontot",
+      "product": "Produkt",
+      "quantity": "Antal",
+      "subtotal": "Delsumma",
+      "track": "Spåra försändelse",
+      "shipping_address": "Leveransadress",
+      "billing_address": "Faktureringsadress"
+    },
+    "addresses": {
+      "title": "Adresser",
+      "add": "Lägg till adress",
+      "edit": "Redigera",
+      "delete": "Ta bort",
+      "save": "Spara adress",
+      "default": "Standard",
+      "none": "Du har inga sparade adresser.",
+      "address1": "Adress",
+      "zip": "Postnummer",
+      "city": "Ort",
+      "country": "Land"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+<section class="search-page page-width">
+  <h1 class="display-l">{{ 'search.title' | t }}</h1>
+
+  <form class="search-page__form" action="{{ routes.search_url }}" method="get" role="search">
+    <label class="visually-hidden" for="SearchPageInput">{{ 'general.header.search' | t }}</label>
+    <input id="SearchPageInput" class="input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}">
+    <button type="submit" class="button button--primary">{{ 'general.search.submit' | t }}</button>
+  </form>
+
+  {%- paginate search.results by 12 -%}
+    {%- if search.performed -%}
+      <p class="text-muted" role="status">{{ 'search.results_count' | t: count: search.results_count, terms: search.terms }}</p>
+    {%- endif -%}
+
+    {%- if search.results.size > 0 -%}
+      <ul class="search-page__grid" role="list">
+        {%- for item in search.results -%}
+          <li>
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <a class="search-page__result card" href="{{ item.url }}">
+                <span class="label label--caps text-muted">{{ item.object_type | capitalize }}</span>
+                <h2 class="heading">{{ item.title | escape }}</h2>
+                {%- if item.content != blank -%}
+                  <p class="text-muted">{{ item.content | strip_html | truncate: 140 }}</p>
+                {%- endif -%}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- elsif search.performed -%}
+      <p>{{ 'search.no_results' | t }}</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% stylesheet %}
+  .search-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .search-page__form {
+    display: flex;
+    gap: var(--space-2);
+    max-width: 640px;
+  }
+
+  .search-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .search-page__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-6);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .search-page__result:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Søkeresultater",
+  "settings": []
+}
+{% endschema %}

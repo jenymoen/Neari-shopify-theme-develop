@@ -1,0 +1,102 @@
+{% doc %}
+  Produktkort: bilde, merker (maks to), navn, pris og kort beskrivelse.
+
+  @param {product} product - Produktet
+  @param {boolean} [priority] - true for kort over folden (ingen lazy loading)
+  @param {string} [sizes] - sizes-attributt for bildet
+
+  @example
+  {% render 'product-card', product: product, sizes: '(min-width: 990px) 33vw, 100vw' %}
+{% enddoc %}
+
+{%- liquid
+  assign card_description = product.metafields.neari.short_description.value
+  if card_description == blank
+    assign card_description = product.description | strip_html | truncate: 140
+  endif
+  assign card_sizes = sizes | default: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw'
+  assign spec_badge = product.metafields.neari.spec_badge.value
+  if spec_badge == blank
+    assign spec_badge = 'products.badges.specs' | t
+  endif
+-%}
+<a class="product-card card" href="{{ product.url }}">
+  <div class="product-card__media media">
+    {% render 'image', image: product.featured_media.preview_image, sizes: card_sizes, widths: '360, 540, 720, 900', priority: priority %}
+  </div>
+  <div class="product-card__body">
+    <div class="product-card__badges">
+      {% render 'product-badge', product: product %}
+      <span class="badge badge--neutral">{{ spec_badge | escape }}</span>
+    </div>
+    <div class="product-card__row">
+      <h3 class="heading">{{ product.title | escape }}</h3>
+      <span class="product-card__price body-l">
+        {%- if product.price_varies -%}
+          {{ 'products.product.from_price' | t: price: product.price_min | money }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+        {%- unless product.available -%}
+          <span class="visually-hidden">{{ 'products.product.sold_out' | t }}</span>
+        {%- endunless -%}
+      </span>
+    </div>
+    {%- if card_description != blank -%}
+      <p class="text-muted">{{ card_description | escape }}</p>
+    {%- endif -%}
+  </div>
+</a>
+
+{% stylesheet %}
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .product-card:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .product-card__media {
+    aspect-ratio: 4 / 3;
+    margin: var(--space-3);
+    border-radius: 12px;
+    background: var(--color-sky);
+  }
+
+  .product-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-6) var(--space-6);
+  }
+
+  .product-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .product-card__badges .badge {
+    padding: 6px 12px;
+  }
+
+  .product-card__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .product-card__price {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+{% endstylesheet %}

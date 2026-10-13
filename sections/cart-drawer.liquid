@@ -1,0 +1,184 @@
+<dialog id="CartDrawer" class="drawer" aria-label="{{ 'cart.title' | t }}">
+  <div class="visually-hidden" role="status" aria-live="polite" data-cart-status></div>
+
+  <div class="cart-drawer" data-cart-drawer-content data-item-count="{{ cart.item_count }}">
+    <div class="drawer__header">
+      <h2 class="heading">{{ 'cart.title' | t }}</h2>
+      <button type="button" class="icon-button" data-dialog-close aria-label="{{ 'general.close' | t }}">
+        {% render 'icon', name: 'x' %}
+      </button>
+    </div>
+
+    {%- if cart == empty -%}
+      <div class="cart-drawer__body cart-drawer__body--empty">
+        <p class="text-muted">{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button button--secondary">{{ 'cart.continue_shopping' | t }}</a>
+      </div>
+    {%- else -%}
+      <ul class="cart-drawer__body" role="list">
+        {%- for item in cart.items -%}
+          <li class="cart-drawer__item card">
+            <a class="cart-drawer__image media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+              {% render 'image', image: item.image, sizes: '72px', widths: '72, 144, 216', alt: '' %}
+            </a>
+            <div class="cart-drawer__info">
+              <a class="cart-drawer__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <span class="body-s text-muted">{{ item.variant.title | escape }}</span>
+              {%- endunless -%}
+              {%- for discount in item.line_level_discount_allocations -%}
+                <span class="body-s text-muted">{{ discount.discount_application.title | escape }}</span>
+              {%- endfor -%}
+              <div class="cart-drawer__controls">
+                <quantity-input class="quantity quantity--small">
+                  <button type="button" class="quantity__button" data-quantity-step="-1" aria-label="{{ 'cart.decrease' | t: product: item.product.title }}">{% render 'icon', name: 'minus', size: 16 %}</button>
+                  <input class="quantity__input" type="number" inputmode="numeric" min="0" max="99" value="{{ item.quantity }}" data-line-qty="{{ forloop.index }}" aria-label="{{ 'cart.quantity_for' | t: product: item.product.title }}">
+                  <button type="button" class="quantity__button" data-quantity-step="1" aria-label="{{ 'cart.increase' | t: product: item.product.title }}">{% render 'icon', name: 'plus', size: 16 %}</button>
+                </quantity-input>
+                <button type="button" class="cart-drawer__remove body-s" data-line-remove="{{ forloop.index }}" aria-label="{{ 'cart.remove' | t: product: item.product.title }}">{{ 'cart.remove_short' | t }}</button>
+              </div>
+            </div>
+            <span class="cart-drawer__total">{{ item.final_line_price | money }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__subtotal">
+          <span>{{ 'cart.total' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        {%- if cart.cart_level_discount_applications.size > 0 -%}
+          <ul class="body-s text-muted" role="list">
+            {%- for discount in cart.cart_level_discount_applications -%}
+              <li>{{ discount.title | escape }} (-{{ discount.total_allocated_amount | money }})</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        <p class="fine-print">
+          {%- if cart.taxes_included -%}
+            {{ 'cart.taxes_included' | t }}
+          {%- endif %}
+          {{ 'cart.shipping_at_checkout' | t }}
+        </p>
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="button button--primary button--full">{{ 'cart.checkout' | t }}</button>
+        </form>
+      </div>
+    {%- endif -%}
+  </div>
+</dialog>
+
+{% stylesheet %}
+  .cart-drawer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .cart-drawer[aria-busy='true'] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .cart-drawer__body {
+    flex: 1;
+    overflow: auto;
+    margin: 0;
+    padding: var(--space-6);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .cart-drawer__body--empty {
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .cart-drawer__item {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-3);
+  }
+
+  .cart-drawer__image {
+    flex: none;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    background: var(--color-sky);
+  }
+
+  .cart-drawer__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cart-drawer__title {
+    color: var(--color-ink);
+    font: 600 16px/22px var(--font-sans);
+  }
+
+  .cart-drawer__controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .quantity--small .quantity__button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .quantity--small .quantity__input {
+    width: 32px;
+    font-size: 15px;
+  }
+
+  .cart-drawer__remove {
+    padding: var(--space-2);
+    border: none;
+    background: transparent;
+    color: var(--color-coral-strong);
+    text-decoration: underline;
+  }
+
+  .cart-drawer__remove:hover {
+    color: var(--color-ink);
+  }
+
+  .cart-drawer__total {
+    font: 600 15px/20px var(--font-sans);
+    white-space: nowrap;
+  }
+
+  .cart-drawer__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .cart-drawer__subtotal {
+    display: flex;
+    justify-content: space-between;
+    font: 600 18px/28px var(--font-sans);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Handlekurv-skuff",
+  "settings": []
+}
+{% endschema %}

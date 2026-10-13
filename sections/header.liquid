@@ -1,0 +1,262 @@
+<header class="header" data-section-id="{{ section.id }}">
+  <div class="header__inner page-width">
+    <button type="button" class="icon-button header__menu-button" data-dialog-open="MenuDrawer" aria-label="{{ 'general.header.menu' | t }}" aria-haspopup="dialog">
+      {% render 'icon', name: 'menu', size: 22 %}
+    </button>
+
+    <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {%- assign logo_height = section.settings.logo_height -%}
+      {%- if section.settings.logo != blank -%}
+        {%- assign logo_width = section.settings.logo.aspect_ratio | times: logo_height | round -%}
+        {{- section.settings.logo | image_url: width: 400 | image_tag: height: logo_height, width: logo_width, alt: shop.name, loading: 'eager', style: 'height: auto; width: auto;' -}}
+      {%- else -%}
+        {%- assign logo_width = logo_height | times: 3.325 | round -%}
+        <img src="{{ 'neari-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" aria-label="{{ 'general.header.main_navigation' | t }}">
+      <ul class="header__links" role="list">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <button type="button" class="icon-button" data-dialog-open="SearchDialog" aria-label="{{ 'general.header.search' | t }}" aria-haspopup="dialog">
+        {% render 'icon', name: 'search' %}
+      </button>
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="icon-button" href="{{ routes.account_url }}" aria-label="{{ 'general.header.account' | t }}">
+          {% render 'icon', name: 'user' %}
+        </a>
+      {%- endif -%}
+      <a class="icon-button" href="{{ routes.cart_url }}"{% unless request.page_type == 'cart' %} data-dialog-open="CartDrawer" aria-haspopup="dialog"{% endunless %} aria-label="{{ 'general.header.cart' | t }}">
+        {% render 'icon', name: 'shopping-bag' %}
+        <span class="header__cart-count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<dialog id="MenuDrawer" class="drawer drawer--left" aria-label="{{ 'general.header.menu' | t }}">
+  <div class="drawer__header">
+    <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      <img src="{{ 'neari-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="100" height="30" loading="lazy">
+    </a>
+    <button type="button" class="icon-button" data-dialog-close aria-label="{{ 'general.close' | t }}">
+      {% render 'icon', name: 'x' %}
+    </button>
+  </div>
+  <nav class="menu-drawer__nav" aria-label="{{ 'general.header.main_navigation' | t }}">
+    <ul role="list">
+      {%- for link in section.settings.menu.links -%}
+        <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+      {%- endfor -%}
+      {%- if shop.customer_accounts_enabled -%}
+        <li><a href="{{ routes.account_url }}">{{ 'general.header.account' | t }}</a></li>
+      {%- endif -%}
+    </ul>
+  </nav>
+</dialog>
+
+<dialog id="SearchDialog" class="search-dialog" aria-label="{{ 'general.header.search' | t }}">
+  <form class="search-dialog__form" action="{{ routes.search_url }}" method="get" role="search">
+    <label class="visually-hidden" for="SearchInput-{{ section.id }}">{{ 'general.header.search' | t }}</label>
+    <input id="SearchInput-{{ section.id }}" class="input" type="search" name="q" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off">
+    <input type="hidden" name="options[prefix]" value="last">
+    <button type="submit" class="button button--primary">{{ 'general.search.submit' | t }}</button>
+    <button type="button" class="icon-button" data-dialog-close aria-label="{{ 'general.close' | t }}">
+      {% render 'icon', name: 'x' %}
+    </button>
+  </form>
+</dialog>
+
+{% stylesheet %}
+  .section-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .header {
+    background: var(--color-sand);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+  }
+
+  .header__menu-button {
+    margin-left: calc(var(--space-2) * -1);
+  }
+
+  .header__logo {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  .header__logo img {
+    display: block;
+  }
+
+  .header__nav {
+    display: none;
+    flex: 1;
+  }
+
+  .header__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: 600 15px/20px var(--font-sans);
+  }
+
+  .header__links a {
+    color: var(--color-ink);
+  }
+
+  .header__links a:hover,
+  .header__links a[aria-current='page'] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-left: auto;
+  }
+
+  .header__cart-count {
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: var(--radius-pill);
+    background: var(--color-coral-strong);
+    color: var(--color-on-coral-strong);
+    font: 600 11px/18px var(--font-sans);
+    text-align: center;
+  }
+
+  .header__cart-count[hidden] {
+    display: none;
+  }
+
+  .menu-drawer__nav {
+    padding: var(--space-6);
+    overflow-y: auto;
+  }
+
+  .menu-drawer__nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .menu-drawer__nav a {
+    display: block;
+    padding: var(--space-3) 0;
+    color: var(--color-ink);
+    font: 600 24px/30px var(--font-display);
+  }
+
+  .search-dialog {
+    width: min(720px, calc(100% - 2 * var(--page-gutter)));
+    margin: var(--space-12) auto auto;
+    padding: var(--space-4);
+    border: none;
+    border-radius: var(--radius-m);
+    background: var(--color-sand);
+    color: var(--color-ink);
+    box-shadow: 0 8px 40px rgba(20, 50, 58, 0.18);
+  }
+
+  .search-dialog::backdrop {
+    background: rgba(20, 50, 58, 0.4);
+  }
+
+  .search-dialog__form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .search-dialog__form .input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 749px) {
+    .search-dialog__form .button {
+      display: none;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .header__inner {
+      gap: var(--space-8);
+    }
+
+    .header__menu-button {
+      display: none;
+    }
+
+    .header__nav {
+      display: block;
+    }
+
+    .header__actions {
+      margin-left: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Egendefinert logo",
+      "info": "La stå tom for å bruke Neari-ordmerket."
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logohøyde",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Hovedmeny",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,72 @@
+<section class="list-collections page-width">
+  <h1 class="display-l">{{ 'collection.list_title' | t }}</h1>
+
+  {%- paginate collections by 12 -%}
+    <ul class="list-collections__grid" role="list">
+      {%- for collection in collections -%}
+        {%- assign collection_image = collection.featured_image | default: collection.products.first.featured_image -%}
+        <li>
+          <a class="list-collections__card card" href="{{ collection.url }}">
+            <div class="list-collections__media media">
+              {% render 'image', image: collection_image, sizes: '(min-width: 990px) 33vw, 100vw', widths: '360, 540, 720, 900' %}
+            </div>
+            <h2 class="heading">{{ collection.title | escape }}</h2>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if paginate.pages > 1 -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% stylesheet %}
+  .list-collections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .list-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .list-collections__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-3) var(--space-6);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .list-collections__card:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .list-collections__card .heading {
+    padding-inline: var(--space-3);
+  }
+
+  .list-collections__media {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    background: var(--color-sky);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Kolleksjonsliste",
+  "settings": []
+}
+{% endschema %}

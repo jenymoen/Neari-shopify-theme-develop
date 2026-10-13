@@ -1,0 +1,129 @@
+<section class="faq page-width" id="{{ section.settings.anchor | default: 'hjelp' | handleize }}">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="display-l">{{ section.settings.heading | escape }}</h2>
+  {%- endif -%}
+
+  <div class="faq__list">
+    {%- for block in section.blocks -%}
+      <details class="faq__item card" {{ block.shopify_attributes }}{% if forloop.first and section.settings.open_first %} open{% endif %}>
+        <summary class="faq__question">
+          <span>{{ block.settings.question | escape }}</span>
+          <span class="faq__icon faq__icon--plus">{% render 'icon', name: 'plus' %}</span>
+          <span class="faq__icon faq__icon--minus">{% render 'icon', name: 'minus' %}</span>
+        </summary>
+        <div class="faq__answer rte text-muted">{{ block.settings.answer }}</div>
+      </details>
+    {%- endfor -%}
+  </div>
+</section>
+
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% stylesheet %}
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: 840px;
+    padding-bottom: var(--section-gap);
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .faq__question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding: 20px var(--space-6);
+    border-radius: var(--radius-m);
+    font: 600 17px/24px var(--font-sans);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__icon--minus,
+  .faq__item[open] .faq__icon--plus {
+    display: none;
+  }
+
+  .faq__item[open] .faq__icon--minus {
+    display: inline-flex;
+  }
+
+  .faq__answer {
+    padding: 0 var(--space-6) 22px;
+    text-wrap: pretty;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Vanlige spørsmål",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Vanlige spørsmål"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anker-ID",
+      "default": "hjelp"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Åpne første spørsmål",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Spørsmål",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Spørsmål", "default": "Hva koster det i måneden?" },
+        { "type": "richtext", "id": "answer", "label": "Svar", "default": "<p>Neari tar ingen månedsavgift.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanlige spørsmål",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Hva koster det i måneden?", "answer": "<p>Neari tar ingen månedsavgift. For barn under 13 år kan du bruke Ice Junior, som er 0 kr/mnd. Foreldrene trenger ikke være Ice-kunder.</p>" } },
+        { "type": "question", "settings": { "question": "Fungerer Neari med andre operatører?", "answer": "<p>Ja. Klokka bruker vanlig nano-SIM fra alle operatører.</p>" } },
+        { "type": "question", "settings": { "question": "Er det bindingstid?", "answer": "<p>Nei. Du betaler for klokka én gang, uten bindingstid.</p>" } },
+        { "type": "question", "settings": { "question": "Hvor gjelder Ice Junior?", "answer": "<p>Ice Junior gjelder kun i Norge, og datakvoten gjelder i Ices eget nett. Sjekk dekning på ice.no.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

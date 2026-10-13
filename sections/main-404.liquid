@@ -1,0 +1,23 @@
+<section class="not-found page-width">
+  <img src="{{ 'neari-ping.svg' | asset_url }}" alt="" width="96" height="96" loading="lazy">
+  <h1 class="display-l">{{ 'general.404.title' | t }}</h1>
+  <p class="body-l text-muted">{{ 'general.404.text' | t }}</p>
+  <a href="{{ routes.root_url }}" class="button button--primary">{{ 'general.404.button' | t }}</a>
+</section>
+
+{% stylesheet %}
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    padding-block: var(--section-gap);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "404",
+  "settings": []
+}
+{% endschema %}

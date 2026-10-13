@@ -1,0 +1,569 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_media_id = current_variant.featured_media.id | default: product.featured_media.id
+  assign form_id = 'ProductForm-' | append: section.id
+-%}
+<div class="product page-width" data-product-section data-section-id="{{ section.id }}">
+  <nav class="product__breadcrumbs body-s text-muted" aria-label="{{ 'general.breadcrumbs' | t }}">
+    <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+    <span aria-hidden="true">/</span>
+    {%- if collection != blank -%}
+      <a href="{{ collection.url }}">{{ collection.title | escape }}</a>
+      <span aria-hidden="true">/</span>
+    {%- endif -%}
+    <span aria-current="page">{{ product.title | escape }}</span>
+  </nav>
+
+  <div class="product__layout">
+    <product-gallery class="product__gallery">
+      <div class="product__main-media">
+        {%- for media in product.media -%}
+          <figure class="product__slide media" data-media-id="{{ media.id }}"{% unless media.id == featured_media_id %} hidden{% endunless %}>
+            {% render 'image', image: media.preview_image, sizes: '(min-width: 990px) 600px, 100vw', priority: forloop.first %}
+          </figure>
+        {%- else -%}
+          <figure class="product__slide media" data-media-id="placeholder">
+            {% render 'image', placeholder: 'product-1' %}
+          </figure>
+        {%- endfor -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <ul class="product__thumbs" role="list">
+          {%- for media in product.media -%}
+            <li>
+              <button type="button" class="product__thumb media" data-media-target="{{ media.id }}" aria-current="{% if media.id == featured_media_id %}true{% else %}false{% endif %}" aria-label="{{ 'products.product.show_image' | t: index: forloop.index }}">
+                {% render 'image', image: media.preview_image, sizes: '120px', widths: '120, 240', alt: '' %}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </product-gallery>
+
+    <div class="product__info">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'tabs' -%}
+            {%- assign tab_collection = block.settings.collection -%}
+            {%- if tab_collection != blank and tab_collection.products.size > 1 -%}
+              <ul class="product__tabs" role="list" {{ block.shopify_attributes }}>
+                {%- for tab_product in tab_collection.products limit: 4 -%}
+                  <li>
+                    <a class="product__tab{% if tab_product.id == product.id %} product__tab--active{% endif %}" href="{{ tab_product.url }}"{% if tab_product.id == product.id %} aria-current="page"{% endif %}>{{ tab_product.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+          {%- when 'title' -%}
+            <div class="product__title-group" {{ block.shopify_attributes }}>
+              <h1 class="product__title">{{ product.title | escape }}</h1>
+              {%- if block.settings.show_description and product.metafields.neari.short_description.value != blank -%}
+                <p class="body-l text-muted">{{ product.metafields.neari.short_description.value | escape }}</p>
+              {%- endif -%}
+            </div>
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="rte text-muted" {{ block.shopify_attributes }}>{{ product.description }}</div>
+            {%- endif -%}
+
+          {%- when 'price' -%}
+            <div class="product__price-row" {{ block.shopify_attributes }}>
+              <span class="visually-hidden">{{ 'products.product.price' | t }}</span>
+              <span class="product__price" data-price>{{ current_variant.price | money }}</span>
+              <s class="product__compare text-muted" data-compare-price{% unless current_variant.compare_at_price > current_variant.price %} hidden{% endunless %}>{% if current_variant.compare_at_price > current_variant.price %}{{ current_variant.compare_at_price | money }}{% endif %}</s>
+              {%- if block.settings.show_badge -%}
+                {% render 'product-badge', product: product %}
+              {%- endif -%}
+            </div>
+            {%- if cart.taxes_included or shop.taxes_included -%}
+              <p class="fine-print product__tax">{{ 'products.product.taxes_included' | t }}</p>
+            {%- endif -%}
+
+          {%- when 'buy' -%}
+            <product-form class="product__buy" {{ block.shopify_attributes }}>
+              {%- form 'product', product, id: form_id, novalidate: 'novalidate' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}"{% if current_variant == nil %} disabled{% endif %}>
+
+                {%- unless product.has_only_default_variant -%}
+                  {%- for option in product.options_with_values -%}
+                    <fieldset class="product__option" data-option-group>
+                      <legend class="label label--caps">
+                        {{ option.name | escape }}: <span data-option-selected>{{ option.selected_value | escape }}</span>
+                      </legend>
+                      <div class="product__option-values">
+                        {%- for value in option.values -%}
+                          {%- assign input_id = form_id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                          <input class="visually-hidden" type="radio" id="{{ input_id }}" name="{{ option.name | escape }}" value="{{ value | escape }}" data-option{% if value.selected %} checked{% endif %}>
+                          {%- if value.swatch != blank -%}
+                            <label class="swatch" for="{{ input_id }}" data-option-value title="{{ value | escape }}">
+                              <span class="swatch__color" style="{% if value.swatch.image %}background-image: url({{ value.swatch.image | image_url: width: 88 }});{% else %}background-color: {{ value.swatch.color }};{% endif %}"></span>
+                              <span class="visually-hidden">{{ value | escape }}</span>
+                            </label>
+                          {%- else -%}
+                            <label class="pill-option" for="{{ input_id }}" data-option-value>{{ value | escape }}</label>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {%- endfor -%}
+                {%- endunless -%}
+
+                <div class="product__actions">
+                  <quantity-input class="quantity">
+                    <button type="button" class="quantity__button" data-quantity-step="-1" aria-label="{{ 'products.product.decrease_quantity' | t }}">{% render 'icon', name: 'minus', size: 18 %}</button>
+                    <input class="quantity__input" type="number" name="quantity" value="1" min="1" max="99" inputmode="numeric" aria-label="{{ 'products.product.quantity' | t }}">
+                    <button type="button" class="quantity__button" data-quantity-step="1" aria-label="{{ 'products.product.increase_quantity' | t }}">{% render 'icon', name: 'plus', size: 18 %}</button>
+                  </quantity-input>
+                  <button type="submit" class="button button--primary product__add" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}>
+                    <span>{% if current_variant.available %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+                  </button>
+                </div>
+                <p class="form-message form-message--error" data-form-error role="alert" hidden></p>
+
+                {%- if block.settings.show_dynamic_checkout -%}
+                  {{ form | payment_button }}
+                {%- endif -%}
+              {%- endform -%}
+
+              <script type="application/json" data-variants>
+                [
+                  {%- for variant in product.variants -%}
+                    {
+                      "id": {{ variant.id }},
+                      "available": {{ variant.available | json }},
+                      "options": {{ variant.options | json }},
+                      "price": {{ variant.price | money | json }},
+                      "compare_at_price": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %},
+                      "featured_media_id": {{ variant.featured_media.id | default: 'null' }}
+                    }{% unless forloop.last %},{% endunless %}
+                  {%- endfor -%}
+                ]
+              </script>
+            </product-form>
+
+          {%- when 'points' -%}
+            {%- assign points = product.metafields.neari.points.value -%}
+            {%- if points.size > 0 -%}
+              <ul class="product__points card" role="list" {{ block.shopify_attributes }}>
+                {%- for point in points -%}
+                  {%- assign parts = point | split: '|' -%}
+                  {%- if parts.size > 1 -%}
+                    {%- assign point_icon = parts[0] | strip -%}
+                    {%- assign point_text = parts[1] | strip -%}
+                  {%- else -%}
+                    {%- assign point_icon = 'check' -%}
+                    {%- assign point_text = point -%}
+                  {%- endif -%}
+                  <li>
+                    {% render 'icon', name: point_icon %}
+                    <span>{{ point_text | escape }}</span>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+          {%- when 'fine_print' -%}
+            <div {{ block.shopify_attributes }}>
+              {% render 'product-fine-print', product: product %}
+            </div>
+
+          {%- when 'text' -%}
+            <div class="rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+          {%- when 'collapsible' -%}
+            <details class="product__collapsible card" {{ block.shopify_attributes }}>
+              <summary>
+                <span>{{ block.settings.heading | escape }}</span>
+                <span class="product__collapsible-icon">{% render 'icon', name: 'chevron-down' %}</span>
+              </summary>
+              <div class="rte text-muted">{{ block.settings.content }}{{ block.settings.page.content }}</div>
+            </details>
+
+          {%- when '@app' -%}
+            {% render block %}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% stylesheet %}
+  .product {
+    padding-block: var(--space-8) var(--section-gap);
+  }
+
+  .product__breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .product__layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  @media (min-width: 990px) {
+    .product__layout {
+      gap: 56px;
+    }
+  }
+
+  .product__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .product__main-media .product__slide {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-l);
+    background: var(--color-sky);
+  }
+
+  .product__thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .product__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: var(--radius-m);
+    background: var(--color-sky);
+  }
+
+  .product__thumb[aria-current='true'] {
+    border-color: var(--color-ink);
+  }
+
+  .product__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+  }
+
+  @media (min-width: 990px) {
+    .product__info {
+      position: sticky;
+      top: 100px;
+    }
+  }
+
+  .product__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .product__tab {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1.5px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    color: var(--color-ink);
+    font: 600 14px/20px var(--font-sans);
+    text-decoration: none;
+  }
+
+  .product__tab:hover {
+    background: var(--color-surface-raised);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .product__tab--active,
+  .product__tab--active:hover {
+    background: var(--color-fjord);
+    color: var(--color-sand);
+  }
+
+  .product__title-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .product__title {
+    font: 700 40px/1.05 var(--font-display);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 750px) {
+    .product__title {
+      font-size: 56px;
+      line-height: 58px;
+    }
+  }
+
+  .product__price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .product__price {
+    font: 700 32px/36px var(--font-display);
+  }
+
+  .product__compare {
+    font-size: 18px;
+  }
+
+  .product__price-row .badge {
+    padding: 6px 12px;
+    align-self: center;
+  }
+
+  .product__tax {
+    margin-top: calc(var(--space-4) * -1);
+  }
+
+  .product__buy form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .product__option {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .product__option legend {
+    padding: 0;
+    margin-bottom: var(--space-3);
+  }
+
+  .product__option-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .swatch {
+    display: block;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: var(--radius-pill);
+    border: 3px solid var(--color-sand);
+    box-shadow: 0 0 0 2px var(--color-line);
+    cursor: pointer;
+  }
+
+  .swatch__color {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background-size: cover;
+  }
+
+  input:checked + .swatch {
+    box-shadow: 0 0 0 2px var(--color-ink);
+  }
+
+  input:focus-visible + .swatch,
+  input:focus-visible + .pill-option {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .pill-option {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1.5px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    font: 600 14px/20px var(--font-sans);
+    cursor: pointer;
+  }
+
+  .pill-option:hover {
+    background: var(--color-surface-raised);
+  }
+
+  input:checked + .pill-option {
+    background: var(--color-fjord);
+    color: var(--color-sand);
+  }
+
+  .product__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .product__add {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .product__points {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: var(--space-6);
+    list-style: none;
+  }
+
+  .product__points li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .product__points .icon {
+    color: var(--color-fjord);
+    width: 20px;
+    height: 20px;
+  }
+
+  .product__collapsible summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .product__collapsible summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .product__collapsible[open] .product__collapsible-icon {
+    transform: rotate(180deg);
+  }
+
+  .product__collapsible .rte {
+    padding: 0 var(--space-6) var(--space-4);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Produkt",
+  "tag": "section",
+  "class": "section-main-product",
+  "blocks": [
+    {
+      "type": "tabs",
+      "name": "Modellvelger",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Kolleksjon med modeller",
+          "info": "Viser produktene som piller, f.eks. Neari Go og Neari Care."
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Tittel",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Vis kort beskrivelse (metafelt neari.short_description)",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Pris",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Vis segmentmerke",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "buy",
+      "name": "Kjøp",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Vis hurtigkasse-knapper",
+          "info": "Brandet tillater kun én primærknapp per visning, derfor er dette slått av som standard.",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "points",
+      "name": "Fordeler",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Produktbeskrivelse",
+      "limit": 1
+    },
+    {
+      "type": "fine_print",
+      "name": "Liten tekst (Ice Junior)",
+      "limit": 1
+    },
+    {
+      "type": "text",
+      "name": "Tekst",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Tekst", "default": "<p>Tekst</p>" }
+      ]
+    },
+    {
+      "type": "collapsible",
+      "name": "Utvidbar rad",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Overskrift", "default": "Frakt og retur" },
+        { "type": "richtext", "id": "content", "label": "Innhold" },
+        { "type": "page", "id": "page", "label": "Eller innhold fra side" }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

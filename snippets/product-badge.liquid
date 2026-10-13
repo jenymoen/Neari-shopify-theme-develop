@@ -1,0 +1,37 @@
+{% doc %}
+  Segmentmerket for et produkt. Ice Junior-merket vises kun i det norske markedet (tilbudet finnes ikke i Sverige og Danmark).
+  Overstyres av metafeltet neari.badge. Segment hentes fra metafeltet neari.segment (barn eller eldre) eller taggen «eldre».
+
+  @param {product} product - Produktet
+  @param {string} [class] - Ekstra klasser
+
+  @example
+  {% render 'product-badge', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign segment = product.metafields.neari.segment.value | default: 'barn' | downcase
+  if product.tags contains 'eldre'
+    assign segment = 'eldre'
+  endif
+
+  assign badge_text = product.metafields.neari.badge.value
+  assign badge_variant = 'ice'
+
+  if segment == 'eldre'
+    assign badge_variant = 'care'
+    if badge_text == blank
+      assign badge_text = 'products.badges.care' | t
+    endif
+  elsif localization.country.iso_code == 'NO'
+    if badge_text == blank
+      assign badge_text = 'products.badges.ice_junior' | t
+    endif
+  else
+    assign badge_variant = 'neutral'
+    if badge_text == blank
+      assign badge_text = 'products.badges.own_sim' | t
+    endif
+  endif
+-%}
+<span class="badge badge--{{ badge_variant }}{% if class != blank %} {{ class }}{% endif %}">{{ badge_text | escape }}</span>

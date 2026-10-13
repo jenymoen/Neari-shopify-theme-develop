@@ -1,0 +1,36 @@
+{% doc %}
+  Felt for adresseskjema (kontosider). Må rendres inne i en {% form 'customer_address' %}.
+
+  @param {object} form - form-objektet fra customer_address
+  @param {string} id - Unik id-suffiks for label/input
+
+  @example
+  {% render 'address-fields', form: form, id: form.id %}
+{% enddoc %}
+
+<div class="field">
+  <label class="field__label" for="AddressFirstName-{{ id }}">{{ 'customer.fields.first_name' | t }}</label>
+  <input id="AddressFirstName-{{ id }}" class="input" type="text" name="address[first_name]" value="{{ form.first_name | escape }}" autocomplete="given-name">
+</div>
+<div class="field">
+  <label class="field__label" for="AddressLastName-{{ id }}">{{ 'customer.fields.last_name' | t }}</label>
+  <input id="AddressLastName-{{ id }}" class="input" type="text" name="address[last_name]" value="{{ form.last_name | escape }}" autocomplete="family-name">
+</div>
+<div class="field">
+  <label class="field__label" for="AddressAddress1-{{ id }}">{{ 'customer.addresses.address1' | t }}</label>
+  <input id="AddressAddress1-{{ id }}" class="input" type="text" name="address[address1]" value="{{ form.address1 | escape }}" autocomplete="address-line1">
+</div>
+<div class="field">
+  <label class="field__label" for="AddressZip-{{ id }}">{{ 'customer.addresses.zip' | t }}</label>
+  <input id="AddressZip-{{ id }}" class="input" type="text" name="address[zip]" value="{{ form.zip | escape }}" autocomplete="postal-code">
+</div>
+<div class="field">
+  <label class="field__label" for="AddressCity-{{ id }}">{{ 'customer.addresses.city' | t }}</label>
+  <input id="AddressCity-{{ id }}" class="input" type="text" name="address[city]" value="{{ form.city | escape }}" autocomplete="address-level2">
+</div>
+<div class="field">
+  <label class="field__label" for="AddressCountry-{{ id }}">{{ 'customer.addresses.country' | t }}</label>
+  <select id="AddressCountry-{{ id }}" class="select" name="address[country]" autocomplete="country-name">
+    {{ all_country_option_tags }}
+  </select>
+</div>
