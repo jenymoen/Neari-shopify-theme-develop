@@ -1,49 +1,230 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "hero": { "type": "hero", "settings": {} },
-    "klokker": { "type": "featured-products", "settings": {} },
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "segment": "barn",
+        "badge": "0 kr/mnd med Ice Junior",
+        "heading": "Én gang betalt. 0 kr i måneden.",
+        "text": "Neari fungerer med Ice Junior – gratis mobilabonnement for barn under 13 år.",
+        "fine_print": "Ice Junior leveres av Ice. Gjelder barn under 13 år, kun i Norge og i Ices nett. Sjekk dekning på ice.no.",
+        "primary_label": "Kjøp nå",
+        "primary_link": "",
+        "secondary_label": "Se klokkene",
+        "secondary_link": "",
+        "image": "shopify://shop_images/neari-jente-pa-sykkel-med-rosa-klokke-9-16.jpg",
+        "card_text": "Ella kom fram til skolen",
+        "card_time": "08:12",
+        "strip_text": "Ring tre faste nummer",
+        "alt_badge": "Ingen Neari-avgift",
+        "alt_heading": "Én gang betalt. Ingen månedsavgift.",
+        "alt_text": "Bruk ditt eget SIM. Neari tar ingen månedsavgift.",
+        "alt_fine_print": "Fungerer med vanlig nano-SIM fra alle operatører."
+      }
+    },
+    "klokker": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Velg klokka",
+        "anchor": "klokker",
+        "collection": "",
+        "limit": 4,
+        "link_label": "Sammenlign modellene",
+        "link_url": ""
+      }
+    },
     "funksjoner": {
       "type": "feature-grid",
       "blocks": {
-        "samtale": { "type": "feature", "settings": { "icon": "phone", "color": "coral", "title": "Samtale", "text": "Ring tre faste nummer, rett fra håndleddet." } },
-        "posisjon": { "type": "feature", "settings": { "icon": "map-pin", "color": "sky", "title": "Posisjon", "text": "Se hvor barnet er, i sanntid." } },
-        "sos": { "type": "feature", "settings": { "icon": "shield", "color": "coral", "title": "SOS", "text": "Et trykk, så ringer klokka deg." } },
-        "skolemodus": { "type": "feature", "settings": { "icon": "school", "color": "sage", "title": "Skolemodus", "text": "Stille i timene, åpen i friminuttet." } },
-        "batteri": { "type": "feature", "settings": { "icon": "battery", "color": "sky", "title": "Batteri", "text": "Varer hele skoledagen og litt til." } }
+        "samtale": {
+          "type": "feature",
+          "settings": {
+            "icon": "phone",
+            "color": "coral",
+            "title": "Samtale",
+            "text": "Ring tre faste nummer, rett fra håndleddet."
+          }
+        },
+        "posisjon": {
+          "type": "feature",
+          "settings": {
+            "icon": "map-pin",
+            "color": "sky",
+            "title": "Posisjon",
+            "text": "Se hvor barnet er, i sanntid."
+          }
+        },
+        "sos": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "color": "coral",
+            "title": "SOS",
+            "text": "Et trykk, så ringer klokka deg."
+          }
+        },
+        "skolemodus": {
+          "type": "feature",
+          "settings": {
+            "icon": "school",
+            "color": "sage",
+            "title": "Skolemodus",
+            "text": "Stille i timene, åpen i friminuttet."
+          }
+        },
+        "batteri": {
+          "type": "feature",
+          "settings": {
+            "icon": "battery",
+            "color": "sky",
+            "title": "Batteri",
+            "text": "Varer hele skoledagen og litt til."
+          }
+        }
       },
-      "block_order": ["samtale", "posisjon", "sos", "skolemodus", "batteri"],
-      "settings": {}
+      "block_order": [
+        "samtale",
+        "posisjon",
+        "sos",
+        "skolemodus",
+        "batteri"
+      ],
+      "settings": {
+        "heading": "Alt dere trenger. Ingenting mer.",
+        "show_logo": true,
+        "anchor": "slik"
+      }
     },
     "segmenter": {
       "type": "segment-cards",
       "blocks": {
-        "barn": { "type": "segment", "settings": { "color": "coral", "label": "For barn 5–12 år", "heading": "Vit at hun kom fram.", "button_label": "Se Neari Go", "button_style": "filled" } },
-        "eldre": { "type": "segment", "settings": { "color": "sage", "label": "For foreldre som bor alene", "heading": "Mamma kan ringe, men slipper å bruke smarttelefon.", "button_label": "Se Neari Care", "button_style": "outline" } }
+        "barn": {
+          "type": "segment",
+          "settings": {
+            "color": "coral",
+            "label": "For barn 5–12 år",
+            "heading": "Vit at hun kom fram.",
+            "button_label": "Se Neari Go",
+            "button_link": "",
+            "button_style": "filled"
+          }
+        },
+        "eldre": {
+          "type": "segment",
+          "settings": {
+            "color": "sage",
+            "label": "For foreldre som bor alene",
+            "heading": "Mamma kan ringe, men slipper å bruke smarttelefon.",
+            "button_label": "Se Neari Care",
+            "button_link": "",
+            "button_style": "outline"
+          }
+        }
       },
-      "block_order": ["barn", "eldre"],
+      "block_order": [
+        "barn",
+        "eldre"
+      ],
       "settings": {}
     },
     "ice": {
       "type": "ice-junior",
       "blocks": {
-        "steg1": { "type": "step", "settings": { "title": "Kjøp Neari Go", "text": "Én engangssum for klokka." } },
-        "steg2": { "type": "step", "settings": { "title": "Bestill Ice Junior", "text": "Gratis for barn under 13 år, 1 GB data. Du trenger ikke være Ice-kunde." } },
-        "steg3": { "type": "step", "settings": { "title": "Sett inn SIM-kortet", "text": "Koble klokka til appen, og legg inn tre faste nummer." } }
+        "steg1": {
+          "type": "step",
+          "settings": {
+            "title": "Kjøp Neari Go",
+            "text": "Én engangssum for klokka."
+          }
+        },
+        "steg2": {
+          "type": "step",
+          "settings": {
+            "title": "Bestill Ice Junior",
+            "text": "Gratis for barn under 13 år, 1 GB data. Du trenger ikke være Ice-kunde."
+          }
+        },
+        "steg3": {
+          "type": "step",
+          "settings": {
+            "title": "Sett inn SIM-kortet",
+            "text": "Koble klokka til appen, og legg inn tre faste nummer."
+          }
+        }
       },
-      "block_order": ["steg1", "steg2", "steg3"],
-      "settings": {}
+      "block_order": [
+        "steg1",
+        "steg2",
+        "steg3"
+      ],
+      "settings": {
+        "norway_only": true,
+        "anchor": "ice",
+        "badge": "0 kr/mnd med Ice Junior",
+        "heading": "Slik får du 0 kr i måneden",
+        "fine_print": "Ice Junior leveres av Ice. Gjelder barn under 13 år, kun i Norge og i Ices nett. Sjekk dekning på ice.no."
+      }
     },
     "faq": {
       "type": "faq",
       "blocks": {
-        "pris": { "type": "question", "settings": { "question": "Hva koster det i måneden?", "answer": "<p>Neari tar ingen månedsavgift. For barn under 13 år kan du bruke Ice Junior, som er 0 kr/mnd. Foreldrene trenger ikke være Ice-kunder.</p>" } },
-        "operator": { "type": "question", "settings": { "question": "Fungerer Neari med andre operatører?", "answer": "<p>Ja. Klokka bruker vanlig nano-SIM fra alle operatører.</p>" } },
-        "binding": { "type": "question", "settings": { "question": "Er det bindingstid?", "answer": "<p>Nei. Du betaler for klokka én gang, uten bindingstid.</p>" } },
-        "ice": { "type": "question", "settings": { "question": "Hvor gjelder Ice Junior?", "answer": "<p>Ice Junior gjelder kun i Norge, og datakvoten gjelder i Ices eget nett. Sjekk dekning på ice.no.</p>" } }
+        "pris": {
+          "type": "question",
+          "settings": {
+            "question": "Hva koster det i måneden?",
+            "answer": "<p>Neari tar ingen månedsavgift. For barn under 13 år kan du bruke Ice Junior, som er 0 kr/mnd. Foreldrene trenger ikke være Ice-kunder.</p>"
+          }
+        },
+        "operator": {
+          "type": "question",
+          "settings": {
+            "question": "Fungerer Neari med andre operatører?",
+            "answer": "<p>Ja. Klokka bruker vanlig nano-SIM fra alle operatører.</p>"
+          }
+        },
+        "binding": {
+          "type": "question",
+          "settings": {
+            "question": "Er det bindingstid?",
+            "answer": "<p>Nei. Du betaler for klokka én gang, uten bindingstid.</p>"
+          }
+        },
+        "ice": {
+          "type": "question",
+          "settings": {
+            "question": "Hvor gjelder Ice Junior?",
+            "answer": "<p>Ice Junior gjelder kun i Norge, og datakvoten gjelder i Ices eget nett. Sjekk dekning på ice.no.</p>"
+          }
+        }
       },
-      "block_order": ["pris", "operator", "binding", "ice"],
-      "settings": {}
+      "block_order": [
+        "pris",
+        "operator",
+        "binding",
+        "ice"
+      ],
+      "settings": {
+        "heading": "Vanlige spørsmål",
+        "anchor": "hjelp",
+        "open_first": false
+      }
     }
   },
-  "order": ["hero", "klokker", "funksjoner", "segmenter", "ice", "faq"]
+  "order": [
+    "hero",
+    "klokker",
+    "funksjoner",
+    "segmenter",
+    "ice",
+    "faq"
+  ]
 }
