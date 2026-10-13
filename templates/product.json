@@ -1,20 +1,76 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "tabs": { "type": "tabs", "settings": {} },
-        "title": { "type": "title", "settings": { "show_description": true } },
-        "price": { "type": "price", "settings": { "show_badge": true } },
-        "buy": { "type": "buy", "settings": { "show_dynamic_checkout": false } },
-        "points": { "type": "points", "settings": {} },
-        "fine_print": { "type": "fine_print", "settings": {} },
-        "description": { "type": "description", "settings": {} }
+        "tabs": {
+          "type": "tabs",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_description": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_badge": true
+          }
+        },
+        "buy": {
+          "type": "buy",
+          "settings": {
+            "show_dynamic_checkout": false
+          }
+        },
+        "points": {
+          "type": "points",
+          "settings": {}
+        },
+        "fine_print": {
+          "type": "fine_print",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        }
       },
-      "block_order": ["tabs", "title", "price", "buy", "points", "fine_print", "description"],
-      "settings": {}
+      "block_order": [
+        "tabs",
+        "title",
+        "price",
+        "buy",
+        "points",
+        "fine_print",
+        "description"
+      ],
+      "settings": {
+        "gallery_width": 50,
+        "image_ratio": "1:1"
+      }
     },
-    "apps": { "type": "apps", "blocks": {}, "block_order": [], "settings": {} }
+    "apps": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {}
+    }
   },
-  "order": ["main", "apps"]
+  "order": [
+    "main",
+    "apps"
+  ]
 }
