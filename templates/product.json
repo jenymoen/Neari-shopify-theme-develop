@@ -44,9 +44,18 @@
           "type": "fine_print",
           "settings": {}
         },
+        "text_kXnWhD": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>0 kr i måneden – helt lovlig.</strong> Neari Go trenger et vanlig nano-SIM, men du betaler ingenting til oss. Med Ice Junior, som er gratis for barn under 13 år, får klokka 1 GB data og fri ringing til tre faste numre. Ingen binding, ingen skjulte avgifter.</p>"
+          }
+        },
         "description": {
           "type": "description",
-          "settings": {}
+          "settings": {
+            "full_width": true,
+            "columns": false
+          }
         }
       },
       "block_order": [
@@ -56,6 +65,7 @@
         "buy",
         "points",
         "fine_print",
+        "text_kXnWhD",
         "description"
       ],
       "settings": {
